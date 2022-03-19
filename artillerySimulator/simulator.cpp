@@ -16,6 +16,7 @@
 #include "uiDraw.h"     // for RANDOM and DRAW*
 #include "ground.h"     // for GROUND
 #include "position.h"   // for POINT
+//#include "howitzer.h"   // for HOWITZER
 using namespace std;
 
 /*************************************************************************

@@ -16,7 +16,7 @@
 #include "uiDraw.h"     // for RANDOM and DRAW*
 #include "ground.h"     // for GROUND
 #include "position.h"   // for POINT
-//#include "howitzer.h"   // for HOWITZER
+#include "howitzer.h"   // for HOWITZER
 using namespace std;
 
 /*************************************************************************
@@ -34,6 +34,7 @@ public:
 
    {
       ptHowitzer.setPixelsX(Position(ptUpperRight).getPixelsX() / 4.0);
+      //howitzer.setPosition(Position(ptUpperRight));
       ground.reset(ptHowitzer);
 
       for (int i = 0; i < 20; i++)
@@ -46,6 +47,7 @@ public:
    Ground ground;                 // the ground
    Position  projectilePath[20];  // path of the projectile
    Position  ptHowitzer;          // location of the howitzer
+   Howitzer  howitzer;            // howitzer object
    Position  ptUpperRight;        // size of the screen
    double angle;                  // angle of the howitzer 
    double time;                   // amount of time since the last firing
@@ -70,20 +72,22 @@ void callBack(const Interface* pUI, void* p)
    //
 
    // move a large amount
-   if (pUI->isRight())
-      game->angle += 0.05;
-   if (pUI->isLeft())
-      game->angle -= 0.05;
+   game->howitzer.adjustAngle(game->angle, pUI);
 
-   // move by a little
-   if (pUI->isUp())
-      game->angle += (game->angle >= 0 ? -0.003 : 0.003);
-   if (pUI->isDown())
-      game->angle += (game->angle >= 0 ? 0.003 : -0.003);
+   //if (pUI->isRight())
+   //   game->angle += 0.05;
+   //if (pUI->isLeft())
+   //   game->angle -= 0.05;
 
-   // fire that gun
-   if (pUI->isSpace())
-      game->time = 0.0;
+   //// move by a little
+   //if (pUI->isUp())
+   //   game->angle += (game->angle >= 0 ? -0.003 : 0.003);
+   //if (pUI->isDown())
+   //   game->angle += (game->angle >= 0 ? 0.003 : -0.003);
+
+   //// fire that gun
+   //if (pUI->isSpace())
+   //   game->time = 0.0;
 
    //
    // perform all the game logic

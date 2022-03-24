@@ -1,74 +1,81 @@
-/******************************************************
-* Course:
-*    CSE 230 - Encapsulation Design
-* Professor:
-*    Brother Helfrich
-* Authors:
-*    Josh Thieme and Lakeram Narine
-* Assignment:
-*    W09 - Unit Tests
-* Description:
-*    This is our Bullet class
-* How long did this take?
-*    About
-*******************************************************/
-#pragma once
-#include <iostream>
-#include <cassert>
+/***********************************************************************
+ * Header File:
+ *    Test Position : Test the Position class
+ * Author:
+ *    Br. Helfrich
+ * Summary:
+ *    All the unit tests for Position
+ ************************************************************************/
 
+
+#pragma once
 
 #include <iostream>
 #include "position.h"
-#include "ground.h"
 #include "velocity.h"
-#include <cassert>
-
-/******************************************************
-*  Bullet
-*
-*******************************************************/
+#include "uiInteract.h" 
+#include "uiDraw.h"  
+using namespace std;
 
 class Bullet
 {
 private:
-	string status;
-
-	Position position;
+	double mass = 46.7;
+	double radius = 0.077445;
 	Velocity velocity;
-
-	int radius;
-	int age;
-	double area;
-	double muzzleVelosity;
-	double mass;
-
+	Position b_position;
+	double time = 0.0;
+	double age = 0.0;
+	string status = "Dead";
+	double speed;
+	double altitude;
+	double density;
 public:
-	Bullet();
+	Bullet() {};
+	/*Bullet(Position position);*/
+	void setPosition(Position& position);
+
+	void getDirection();
 	void reset();
 	void fire();
 	void advance();
-	void draw();
-	bool isflying();
-
+	void draw(ogstream& gout);
+	bool isFlying();
 	double getAltitude();
 	Position getPosition();
-	void setPosition();
 	double getFlightTime();
-	double getFlightdistance();
-
+	double getFlightDistance();
 	double getSpeed();
 	double getCurrentTime();
-
-	bool hitTarget();
-	bool hitGround();
-	bool isHit();
-	bool isFired();
-
-	int getAge();
-	void setAge();
-	void updateAge();
-
-
-
-
 };
+
+void Bullet::draw(ogstream& gout)
+{
+	gout.drawProjectile(b_position, 0.5);
+}
+
+void Bullet::advance()
+{
+	// get the altitude
+	altitude = b_position.getMetersY();
+
+	// get speed
+	//speed = velocity.getSpeed();
+
+	// Modify the Vleocity to handle wind Resistnace
+
+	cout << "this is altitude" << altitude << endl;
+	// get the direction that the howitzer is pointing at 
+	// move my x and y in that direction
+	b_position.addPixelsX(0.5);
+	b_position.addPixelsY(0.5);
+}
+
+void Bullet::setPosition(Position& position)
+{
+	b_position.setPixelsX(position.getPixelsX());
+	b_position.setPixelsY(position.getPixelsY());
+}
+
+
+

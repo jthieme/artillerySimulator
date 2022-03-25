@@ -40,7 +40,7 @@ public:
         return posImpact.getMetersY();
     }
 
-    // where the the target locateD?
+    // where the the target located?
     const Position& getTarget() const
     {
         return posTarget;
@@ -48,10 +48,9 @@ public:
 
     bool hitGround(const Position& position, int bulletWidth) const;
 
-
 private:
-    double* ground;               // elevation of the ground, in pixels 
-    Position posTarget;                // the location of the target, in pixels
+    double* ground;                // elevation of the ground, in pixels 
+    Position posTarget;            // the location of the target, in pixels
     int iHowitzer;                 // the location of the howitzer
-    const Position posUpperRight;      // size of the screen
+    const Position posUpperRight;  // size of the screen
 };

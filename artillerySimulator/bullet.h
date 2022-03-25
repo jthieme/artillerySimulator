@@ -12,18 +12,19 @@
 
 #include <iostream>
 #include "position.h"
-#include "velocity2.h"
+#include "velocity.h"
 #include "uiInteract.h" 
 #include "uiDraw.h"  
 #include "physics.h"
+#include "direction.h"
 using namespace std;
 
 class Bullet
 {
 private:
-	double muzzel_velocity = 827.0;
-	double mass = 46.7;
-	double radius = 0.077445;
+	const double muzzel_velocity = 827.0;
+	const double mass = 46.7;
+	const double radius = 0.077445;
 	Velocity velocity;
 	Position b_position;
 	double time = 0.0;
@@ -50,6 +51,7 @@ public:
 	double getSpeed() { return velocity.getSpeed(); }
 	void getAngle(double angle);
 	double getRadius() { return radius; }
+	//bool hitTarget(Ground posTarget, int bulletWidth);
 };
 
 void Bullet::draw(ogstream& gout)
@@ -68,7 +70,7 @@ void Bullet::advance()
 		double speed = getSpeed();
 		Physics ph;
 
-		// Modify the Vleocity to handle wind Resistnace
+		// Modify the Velocity to handle wind Resistnace
 		double density = ph.densityFromAltitude(altitude);
 		double dragCoefficient = ph.dragFromSpeed(speed, altitude);
 		double windResistance = ph.forceFromDrag(density, dragCoefficient, radius, speed);
@@ -90,8 +92,6 @@ void Bullet::advance()
 		//Inertia
 		b_position.addMetersX(ph.velocityFromAcceleration(velocity.getDX(), timeInterval));
 		b_position.addMetersY(ph.velocityFromAcceleration(velocity.getDY(), timeInterval));
-
-
 	}
 
 }
@@ -125,6 +125,12 @@ Position Bullet::getPosition()
 {
 	return b_position;
 }
+
+//bool Bullet::hitTarget(Ground posTarget, int bulletWidth)
+//{
+//	// if the bullets positon is within the position of the target, return true, otherwise return false
+//	return bulletWidth == posTarget.getPixelsX() ? true : false;
+//}
 
 void Bullet::reset()
 {

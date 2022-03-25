@@ -17,7 +17,7 @@
 #include "ground.h"     // for GROUND
 #include "position.h"   // for POINT
 #include "bullet.h"
-#include "howitzerh.h"
+#include "howitzer.h"
 
 using namespace std;
 
@@ -44,6 +44,7 @@ public:
     }
 
     Ground ground;                 // the ground
+    //Ground target;              // the target
     Position  projectilePath;  // path of the projectile
     Position  ptHowitzer;          // location of the howitzer
     Position  ptUpperRight;        // size of the screen
@@ -69,7 +70,7 @@ public:
         if (ground.hitGround(bullet.getPosition(), 0.8))
         {
             bullet.setIsFlying(false);
-            gout << "You hit the Ground!!!" << "s\n";
+            gout << "You hit the Ground!!!" << "\n";
         }
     }
 
@@ -158,4 +159,3 @@ int main(int argc, char** argv)
 
     return 0;
 }
-m

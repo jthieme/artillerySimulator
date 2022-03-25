@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bullet.h" />
+    <ClInclude Include="direction.h" />
     <ClInclude Include="ground.h" />
     <ClInclude Include="howitzer.h" />
     <ClInclude Include="physics.h" />

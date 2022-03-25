@@ -7,14 +7,14 @@
 #include "ground.h"     // for GROUND
 #include "position.h"   // for POINT
 #include "bullet.h"
-#define _USE_MATH_DEFINES
-#include<cmath>
-#include<iostream>
+#include <cmath>
+#include <iostream>
 #include <iostream>
 class Direction
 {
 private:
 	double radians;
+	const double PI = 3.1415926;
 public:
 	Direction() : radians(0.0) {};
 	Direction(double degrees) : radians(0.0) { radians = radiansFromDegrees(degrees); };
@@ -25,9 +25,9 @@ public:
 	double getRadians() { return radians; };
 	double getDx() { return sin(radians); };
 	double getDy() { return cos(radians); };
-	double radiansFromDegrees(double degree) { return degree * (3.142 / 180); }
+	double radiansFromDegrees(double degree) { return degree * (PI / 180); }
 
-	double getDegrees() { return radians * 180 / 3.142; };
+	double getDegrees() { return radians * 180 / PI; };
 
 	//void setDown() { radians = M_PI; }
 	//void setUp() { radians = 0.0; }

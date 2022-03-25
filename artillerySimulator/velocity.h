@@ -1,5 +1,5 @@
 #pragma once
-#include "direction2.h"
+#include "direction.h"
 class Velocity
 {
 public:

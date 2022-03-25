@@ -1,6 +1,3 @@
-#pragma once
-
-
 /***********************************************************************
  * Header File:
  *    Test Position : Test the Position class
@@ -19,7 +16,7 @@
 #include "ground.h"     // for GROUND
 #include "position.h"   // for POINT
 #include "bullet.h"
-#include "direction2.h"
+#include "direction.h"
 
 
 
@@ -29,7 +26,6 @@ class Howitzer
 {
 private:
 	Position hposition;
-	Direction direction;
 	double angle;
 
 

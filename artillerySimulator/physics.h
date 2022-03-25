@@ -22,7 +22,7 @@
 #include <cmath>
 #include <iostream>
 #include <cassert>
-#include "velocity2.h"
+#include "velocity.h"
 
 using namespace std;
 class Physics

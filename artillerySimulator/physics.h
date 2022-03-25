@@ -15,10 +15,14 @@
 *******************************************************/
 
 #pragma once
-#define _USE_MATH_DEFINES 
+#include <math.h>
+#ifndef  M_PI
+#define  M_PI  3.1415926535897932384626433
+#endif
 #include <cmath>
 #include <iostream>
 #include <cassert>
+#include "velocity2.h"
 
 using namespace std;
 class Physics
@@ -30,7 +34,7 @@ public:
 		double range;
 	};
 
-	double M_PI = 3.14159;
+
 	double areaFromRadius(double radius);
 	double forceFromDrag(double density, double drag, double radius, double velocity);
 	double accelerationFromForce(double force, double mass);
@@ -41,7 +45,8 @@ public:
 	double gravityFromAltitude(double altitude);
 	double speedOfSoundFromAltitude(double altitude);
 	double densityFromAltitude(double altitude);
-	double machFromSpeed(double);
+	double machFromSpeed(double speed, double altitude);
+	double dragFromSpeed(double speed, double altitude);
 };
 
 /********************************************
@@ -49,7 +54,7 @@ public:
 ******************************/
 double Physics::areaFromRadius(double radius)
 {
-	return M_PI * radius * radius;
+	return M_PI * (radius * radius);
 }
 
 /**************************************************************
@@ -155,8 +160,8 @@ double Physics::speedOfSoundFromAltitude(double altitude)
 	const Mapping speedOfSoundMapping[] =
 	{
 		// altitude      speedOfSound
-	{0,	340},
-	{1000	,336},
+	{0,	    340},
+	{1000,  336},
 	{2000,	332},
 	{3000,	328},
 	{5000,	320},
@@ -225,4 +230,41 @@ double Physics::linearInterpolation(double d0, double r0, double d1, double r1, 
 	}
 	range = r0 + (r1 - r0) * ((d - d0) / (d1 - d0));
 	return range;
+}
+
+
+double Physics::dragFromSpeed(double speed, double altitude)
+{
+	const Mapping dragSpeed[] =
+	{
+		//Mach	//Drag Coefficient
+		 {0.300,	0.1629},
+		 {0.500,    0.1659},
+		 {0.700,	0.2031},
+		 {0.890,	0.2597},
+		 {0.920,	0.3010},
+		 {0.960,	0.3287},
+		 {0.980,	0.4002},
+		 {1.000,	0.4258},
+		 {1.020,	0.4335},
+		 {1.060,	0.4483},
+		 {1.240,	0.4064},
+		 {1.530,	0.3663},
+		 {1.990,	0.2897},
+		 {2.870,	0.2297},
+		 {2.890,	0.2306},
+		 {5.000,	0.2656}
+	};
+
+	double mach = machFromSpeed(speed, altitude);
+	double drag = linearInterpolation(dragSpeed, sizeof(dragSpeed) / sizeof(dragSpeed[0]), mach);
+	return drag;
+
+}
+
+double Physics::machFromSpeed(double speed, double altitude)
+{
+	double speedOfSound = speedOfSoundFromAltitude(altitude);
+	// mach = speed of object / speed of sound
+	return speed / speedOfSound;
 }

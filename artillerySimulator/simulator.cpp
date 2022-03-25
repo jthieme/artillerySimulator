@@ -17,7 +17,7 @@
 #include "ground.h"     // for GROUND
 #include "position.h"   // for POINT
 #include "bullet.h"
-#include "howitzer.h"
+#include "howitzerh.h"
 
 using namespace std;
 
@@ -36,34 +36,42 @@ public:
         isfired(false)
 
     {
-        /*ground.reset(ptHowitzer);*/
-        
+        ptHowitzer.setPixelsX(Position(ptUpperRight).getPixelsX() * random(0.0, 1.0));
+        ground.reset(ptHowitzer);
+        howitzer.setPosition(ptHowitzer);
         Position hpos = howitzer.getPosition();
-        
         bullet.setPosition(hpos);
-        ground.reset(hpos);
     }
 
     Ground ground;                 // the ground
     Position  projectilePath;  // path of the projectile
     Position  ptHowitzer;          // location of the howitzer
     Position  ptUpperRight;        // size of the screen
-
     Howitzer howitzer;
     Bullet bullet;
-
     double angle;                  // angle of the howitzer 
     double time;               // amount of time since the last firing
 
     bool isfired;
 
 
-    void drawHow(ogstream& gout)
+    void draw(ogstream& gout, double dtime)
     {
-        howitzer.draw(gout, time);
+        howitzer.draw(gout, dtime);
+        ground.draw(gout);
+        bullet.draw(gout);
     }
 
+    void reset() {};
 
+    void collision(ogstream& gout)
+    {
+        if (ground.hitGround(bullet.getPosition(), 0.8))
+        {
+            bullet.setIsFlying(false);
+            gout << "You hit the Ground!!!" << "s\n";
+        }
+    }
 
 };
 
@@ -81,59 +89,32 @@ void callBack(const Interface* pUI, void* p)
     Demo* pDemo = (Demo*)p;
     ogstream gout(Position(10.0, pDemo->ptUpperRight.getPixelsY() - 20.0));
 
-
     // move the howitzer
     pDemo->howitzer.rotate(pUI);
     pDemo->howitzer.raise(pUI);
-    //
-    // accept input
-    //
 
-    // move a large amount
-    //if (pUI->isRight())
-    //   pDemo->angle += 0.05;
-    //if (pUI->isLeft())
-    //   pDemo->angle -= 0.05;
-
-    //// move by a little
-    //if (pUI->isUp())
-    //   pDemo->angle += (pDemo->angle >= 0 ? -0.003 : 0.003);
-    //if (pUI->isDown())
-    //   pDemo->angle += (pDemo->angle >= 0 ? 0.003 : -0.003);
-
-
-
-
+    // Intialize the movement of the bullet
     if (pUI->isSpace())
     {
-        pDemo->isfired = true;
+        pDemo->time = 0.0;
+        if (!pDemo->bullet.getIsFlying()) {
+            double angle = pDemo->howitzer.getAngle();
+            Position pos = pDemo->howitzer.getPosition();
+            pDemo->bullet.fire(angle, pos);
+        }
+
     }
-
-    if (pDemo->isfired)
-    {
-        pDemo->bullet.draw(gout);
-
-        pDemo->bullet.advance();
-    }
-
-
-
-
     // advance time by half a second.
     pDemo->time += 0.5;
 
-    // 
-    // draw everything
+    //Draw all the elements on the screen
+    pDemo->draw(gout, pDemo->time);
 
+    //Advance the bullet
+    pDemo->bullet.advance();
 
-    // draw the ground first
-    pDemo->ground.draw(gout);
-
-    // draw howitzer
-    pDemo->drawHow(gout);
-    cout << pDemo->howitzer.getPosition() << endl;
-
-
+    //Continually watch for Collision
+    pDemo->collision(gout);
 
     // draw some text on the screen
     gout.setf(ios::fixed | ios::showpoint);
@@ -177,3 +158,4 @@ int main(int argc, char** argv)
 
     return 0;
 }
+m

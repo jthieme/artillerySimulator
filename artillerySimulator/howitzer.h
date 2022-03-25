@@ -19,7 +19,7 @@
 #include "ground.h"     // for GROUND
 #include "position.h"   // for POINT
 #include "bullet.h"
-//#include "direction2.h"
+#include "direction2.h"
 
 
 
@@ -29,11 +29,12 @@ class Howitzer
 {
 private:
 	Position hposition;
-	
+	Direction direction;
 	double angle;
 
 
 public:
+
 	Howitzer() :angle(0.0) {
 		hposition.setPixelsX(200.0);
 		updateAngle(angle);

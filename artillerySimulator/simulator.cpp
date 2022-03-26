@@ -72,6 +72,12 @@ public:
             bullet.setIsFlying(false);
             gout << "You hit the Ground!!!" << "\n";
         }
+
+        else if (ground.hitTarget(ground.getTarget(), 0.8))
+        {
+           bullet.setIsFlying(false);
+           gout << "You hit the Target!!!" << "\n";
+        }
     }
 
 };

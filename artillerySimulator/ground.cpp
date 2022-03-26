@@ -154,12 +154,12 @@ void Ground::draw(ogstream& gout) const
 
 
 /***********************************************************
- * HTI GROUND
- * Did the lander hit the ground?
+ * HIT GROUND
+ * Did the bullet hit the ground?
  **********************************************************/
 bool Ground::hitGround(const Position& position, int bulletWidth) const
 {
-    // find the extent of the lander
+    // find the extent of the bullet
     int xMin = (int)(position.getPixelsX() - (double)bulletWidth / 2.0);
     int xMax = (int)(position.getPixelsX() + (double)bulletWidth / 2.0);
 

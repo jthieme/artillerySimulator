@@ -48,6 +48,11 @@ public:
 
     bool hitGround(const Position& position, int bulletWidth) const;
 
+    bool hitTarget(Position p, int bulletWidth)
+    {
+       return p.getPixelsX() <= bulletWidth >= p.getPixelsX() ? true : false;
+    }
+
 private:
     double* ground;                // elevation of the ground, in pixels 
     Position posTarget;            // the location of the target, in pixels

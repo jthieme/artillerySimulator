@@ -48,17 +48,7 @@ public:
 
     bool hitGround(const Position& position, int bulletWidth) const;
 
-    bool hitTarget(Position target, Position bullet)
-    {
-       for (int i = 0; i < 400; i++)
-       {
-          if (bullet.getMetersX() == target.getMetersX() + i)
-          {
-             return true;
-          }
-          return false;
-       }
-    }
+    bool hitTarget(const Position& position) const;
 
 private:
     double* ground;                // elevation of the ground, in pixels 

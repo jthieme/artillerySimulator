@@ -67,19 +67,20 @@ public:
 
     void collision(ogstream& gout)
     {
-        if (ground.hitGround(bullet.getPosition(), 0.8))
+        if (ground.hitTarget(bullet.getPosition()))
+        {
+
+            bullet.setIsFlying(false);
+            gout << "You hit the Target!!!" << "\n";
+
+        }
+        else if (ground.hitGround(bullet.getPosition(), 0.8))
         {
             bullet.setIsFlying(false);
             gout << "You hit the Ground!!!" << "\n";
-            gout << "bullet pos: " << bullet.getPosition() << "\n";
-            gout << "target pos: " << ground.getTarget() << "\n";
         }
 
-        else if (ground.hitTarget(ground.getTarget(), bullet.getPosition()))
-        {
-           bullet.setIsFlying(false);
-           gout << "You hit the Target!!!" << "\n";
-        }
+        
     }
 
 };

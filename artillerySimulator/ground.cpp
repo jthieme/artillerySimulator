@@ -173,3 +173,30 @@ bool Ground::hitGround(const Position& position, int bulletWidth) const
 
     return position.getPixelsY() < maxElevation;
 }
+
+
+bool Ground::hitTarget(const Position& position) const {
+
+    int xMin = (int)(position.getPixelsX() - 6.0);
+    int xMax = (int)(position.getPixelsX() + 6.0);
+
+    int yMin = (int)(position.getPixelsY() - 6.0);
+    int yMax = (int)(position.getPixelsY() + 6.0);
+
+
+
+    if ((posTarget.getPixelsX() < xMax && posTarget.getPixelsX() > xMin) && (posTarget.getPixelsY() < yMax && posTarget.getPixelsY() > yMin))
+    {
+        return true;
+    }
+
+
+
+    else
+    {
+        return false;
+    };
+
+
+
+}

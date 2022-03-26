@@ -71,9 +71,11 @@ public:
         {
             bullet.setIsFlying(false);
             gout << "You hit the Ground!!!" << "\n";
+            gout << "bullet pos: " << bullet.getPosition() << "\n";
+            gout << "target pos: " << ground.getTarget() << "\n";
         }
 
-        else if (ground.hitTarget(ground.getTarget(), 0.8))
+        else if (ground.hitTarget(ground.getTarget(), bullet.getPosition()))
         {
            bullet.setIsFlying(false);
            gout << "You hit the Target!!!" << "\n";

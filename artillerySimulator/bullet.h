@@ -1,10 +1,10 @@
 /***********************************************************************
  * Header File:
- *    Test Position : Test the Position class
+ *    Bullet: Everything about the bullet
  * Author:
- *    Br. Helfrich
+ *    Josh Thieme, Lakeram Narine
  * Summary:
- *    All the unit tests for Position
+ *    This is to have the bullet in the simulation
  ************************************************************************/
 
 

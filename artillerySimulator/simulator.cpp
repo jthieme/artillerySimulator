@@ -44,7 +44,6 @@ public:
     }
 
     Ground ground;                 // the ground
-    //Ground target;              // the target
     Position  projectilePath;  // path of the projectile
     Position  ptHowitzer;          // location of the howitzer
     Position  ptUpperRight;        // size of the screen
@@ -60,7 +59,12 @@ public:
     {
         howitzer.draw(gout, dtime);
         ground.draw(gout);
-        bullet.draw(gout);
+
+        for (int i = 0; i < 10; i++)
+        {
+            bullet.draw(gout);
+        }
+        
     }
 
     void reset() {};

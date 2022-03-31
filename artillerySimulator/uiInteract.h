@@ -56,6 +56,7 @@ public:
    // Key event indicating a key has been pressed or not.  The callbacks
    // should be the only onces to call this
    void keyEvent(int key, bool fDown);
+   void keyEvent2(int key, bool fDown);
    void keyEvent();
 
    // Current frame rate
@@ -67,6 +68,14 @@ public:
    int  isLeft()      const { return isLeftPress; };
    int  isRight()     const { return isRightPress; };
    bool isSpace()     const { return isSpacePress; };
+
+
+   // added new keys
+   bool  isW()         const { return isWPress; };
+   bool  isR()         const { return isRPress; };
+   bool  isE()         const { return isEPress; };
+   bool  isD()         const { return isDPress; };
+   bool  isX()         const { return isXPress; };
 
    static void* p;                   // for client
    static void (*callBack)(const Interface*, void*);
@@ -83,6 +92,12 @@ private:
    static int  isLeftPress;          //    "   left       "
    static int  isRightPress;         //    "   right      "
    static bool isSpacePress;         //    "   space      "
+   // new key
+   static bool  isWPress;         //    "   W      "
+   static bool  isRPress;         //    "   R      "
+   static bool  isEPress;         //    "   W      "
+   static bool  isDPress;         //    "   R      "
+   static bool  isXPress;         //    "   R      "
 };
 
 

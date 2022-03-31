@@ -60,7 +60,7 @@ public:
 		if (pUI->isLeft())
 			angle -= 0.05;
 	}
-
+	
 	void raise(const Interface* pUI)
 	{
 		if (pUI->isUp())
@@ -68,6 +68,25 @@ public:
 		if (pUI->isDown())
 			angle += (angle >= 0 ? 0.003 : -0.003);
 	}
+
+	// second howitzer handle
+
+	void raise2(const Interface* pUI)
+	{
+		if (pUI->isE())
+			angle += (angle >= 0 ? -0.003 : 0.003);
+		if (pUI->isD())
+			angle += (angle >= 0 ? 0.003 : -0.003);
+	}
+
+	void rotate2(const Interface* pUI)
+	{
+		if (pUI->isR())
+			angle += 0.05;
+		if (pUI->isW())
+			angle -= 0.05;
+	}
+
 
 	double getAngle() { return angle; }
 

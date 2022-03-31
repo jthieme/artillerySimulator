@@ -38,25 +38,29 @@ public:
         isfired(false)
 
     {
-        ptHowitzerOne.setPixelsX(Position(ptUpperRight).getPixelsX() * random(0.0, 1.0));
-        ptHowitzerTwo.setPixelsX(Position(ptUpperRight).getPixelsX() * random(0.0, 1.0));
-        ground.reset(ptHowitzerOne);
-        hPlayerOne.setPosition(ptHowitzerOne);
-        hPlayerTwo.setPosition(ptHowitzerTwo);
+        ptHowitzerOne[1].setPixelsX(Position(ptUpperRight).getPixelsX() / 1.2  );
+        ptHowitzerOne[2].setPixelsX(Position(ptUpperRight).getPixelsX() / 2.5);
+      
+        ground.reset(ptHowitzerOne[1], ptHowitzerOne[2]);
+      
+        hPlayerOne.setPosition(ptHowitzerOne[1]);
+        hPlayerTwo.setPosition(ptHowitzerOne[2]);
+
         Position hPosOne = hPlayerOne.getPosition();
-        Position hPosTwo = hPlayerTwo.getPosition();
+        Position hPosOne2 = hPlayerTwo.getPosition();
         bullet.setPosition(hPosOne);
-        bullet.setPosition(hPosTwo);
+        bullet2.setPosition(hPosOne2);
     }
 
     Ground ground;                 // the ground
     Position  projectilePath;  // path of the projectile
-    Position  ptHowitzerOne;          // location of the howitzer
-    Position  ptHowitzerTwo;          // location of the howitzer
+    Position  ptHowitzerOne[2];          // location of the howitzer
+                                         // location of the howitzer
     Position  ptUpperRight;        // size of the screen
     Howitzer hPlayerOne;
     Howitzer hPlayerTwo;
     Bullet bullet;
+    Bullet bullet2;
     double angle;                  // angle of the howitzer 
     double time;               // amount of time since the last firing
     bool isfired;
@@ -67,10 +71,9 @@ public:
         hPlayerTwo.draw(gout, dtime);
         ground.draw(gout);
 
-        for (int i = 0; i < 10; i++)
-        {
-            bullet.draw(gout);
-        }
+        bullet2.draw(gout);
+        bullet.draw(gout);
+       
         
     }
 
@@ -78,15 +81,32 @@ public:
 
     void collision(ogstream& gout)
     {
+        // check if Bullet 1 hit target
         if (ground.hitTarget(bullet.getPosition()))
         {
             bullet.setIsFlying(false);
-            gout << "You hit the Target!!!" << "\n";
+            bullet2.setIsFlying(false);
+            gout << "Player One  hit the Target!!!" << "\n";
         }
-        else if (ground.hitGround(bullet.getPosition(), 0.8))
+        // check if bullet 2 hit target
+        if (ground.hitTarget(bullet2.getPosition()))
         {
             bullet.setIsFlying(false);
-            gout << "You hit the Ground!!!" << "\n";
+            bullet2.setIsFlying(false);
+            gout << "Player Two hit the Target!!!" << "\n";
+        }
+
+        if (ground.hitGround(bullet.getPosition(), 0.8))
+        {
+            bullet.setIsFlying(false);
+            gout << "Player One hit the Ground!!!" << "\n";
+        }
+
+        // check if bullet two hit the ground
+        if (ground.hitGround(bullet2.getPosition(), 0.8))
+        {
+            bullet2.setIsFlying(false);
+            gout << "Player Two hit the Ground!!!" << "\n";
         }
     }
 };
@@ -109,8 +129,8 @@ void callBack(const Interface* pUI, void* p)
     pSimulator->hPlayerOne.rotate(pUI);
     pSimulator->hPlayerOne.raise(pUI);
 
-    pSimulator->hPlayerTwo.rotate(pUI);
-    pSimulator->hPlayerTwo.raise(pUI);
+    pSimulator->hPlayerTwo.rotate2(pUI);
+    pSimulator->hPlayerTwo.raise2(pUI);
 
     // Intialize the movement of the bullet
     if (pUI->isSpace())
@@ -123,6 +143,17 @@ void callBack(const Interface* pUI, void* p)
         }
 
     }
+    // second Howitzer
+    if (pUI->isX())
+    {
+        pSimulator->time = 0.0;
+        if (!pSimulator->bullet2.getIsFlying()) {
+            double angle = pSimulator->hPlayerTwo.getAngle();
+            Position pos = pSimulator->hPlayerTwo.getPosition();
+            pSimulator->bullet2.fire(angle, pos);
+        }
+    }
+
     // advance time by half a second.
     pSimulator->time += 0.5;
 
@@ -131,6 +162,7 @@ void callBack(const Interface* pUI, void* p)
 
     //Advance the bullet
     pSimulator->bullet.advance();
+    pSimulator->bullet2.advance();
 
     //Continually watch for Collision
     pSimulator->collision(gout);

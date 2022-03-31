@@ -56,7 +56,7 @@ public:
 
 void Bullet::draw(ogstream& gout)
 {
-	gout.drawProjectile(b_position, 0.5);
+	gout.drawProjectile(b_position, 2.5);
 }
 
 void Bullet::advance()

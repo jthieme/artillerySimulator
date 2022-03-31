@@ -23,7 +23,7 @@ public:
     Ground(const Position& posUpperRight);
 
     // reset the game
-    void reset(Position& posHowitzer);
+    void reset(Position& posHowitzer, Position& posHowitzer2);
 
     // draw the ground on the screen
     void draw(ogstream& gout) const;
@@ -54,5 +54,6 @@ private:
     double* ground;                // elevation of the ground, in pixels 
     Position posTarget;            // the location of the target, in pixels
     int iHowitzer;                 // the location of the howitzer
+    int iHowitzer2;
     const Position posUpperRight;  // size of the screen
 };

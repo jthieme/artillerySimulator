@@ -22,6 +22,7 @@ const double TEXTURE = 3.0;   // size of the small features such as rocks
 Ground::Ground(const Position& posUpperRight) :
     posUpperRight(posUpperRight),
     iHowitzer(0),
+    iHowitzer2(0),
     ground(NULL)
 {
     // allocate the array
@@ -32,7 +33,7 @@ Ground::Ground(const Position& posUpperRight) :
  * RESET
  * Create a new ground
  ************************************************************************/
-void Ground::reset(Position& posHowitzer)
+void Ground::reset(Position& posHowitzer, Position& posHowitzer2)
 {
     // remember the integer width for later. It will come in handy
     int width = (int)posUpperRight.getPixelsX();
@@ -40,7 +41,9 @@ void Ground::reset(Position& posHowitzer)
 
     // determine the location of the target
     iHowitzer = (int)(posHowitzer.getPixelsX());
-    if (iHowitzer > width / 2)
+    iHowitzer2 = (int)(posHowitzer2.getPixelsX());
+
+    if ((iHowitzer > width / 2) && (iHowitzer2 > width / 2))
         posTarget.setPixelsX(random((int)(width * 0.05), (int)(width * 0.45)));
     else
         posTarget.setPixelsX(random((int)(width * 0.55), (int)(width * 0.95)));
@@ -53,11 +56,11 @@ void Ground::reset(Position& posHowitzer)
     // give each location on the ground an elevation
     ground[0] = posMinimum.getPixelsY(); // the initial elevation is low
     double dy = MAX_SLOPE / 2.0;  // the initial slope is heavily biased to up
+    
     for (int i = 1; i < width; i++)
     {
         // put the howitzer on flat ground
-        if (i > iHowitzer - WIDTH_HOWITZER / 2 &&
-            i < iHowitzer + WIDTH_HOWITZER / 2)
+        if (i > iHowitzer - WIDTH_HOWITZER / 2 && i < iHowitzer + WIDTH_HOWITZER / 2 )
         {
             ground[i] = ground[i - 1];
         }
@@ -86,6 +89,7 @@ void Ground::reset(Position& posHowitzer)
 
     // set the howitzer's elevation
     posHowitzer.setPixelsY(ground[iHowitzer]);
+    posHowitzer2.setPixelsY(ground[iHowitzer2]);
 }
 
 /*****************************************************************

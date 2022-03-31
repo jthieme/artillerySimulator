@@ -122,6 +122,7 @@ void keyDownCallback(int key, int x, int y)
    // so we are actually getting the same version as in the constructor.
    Interface ui;
    ui.keyEvent(key, true /*fDown*/);
+   ui.keyEvent(key, true /*fDown*/);
 }
 
 /************************************************************************
@@ -136,6 +137,7 @@ void keyUpCallback(int key, int x, int y)
    // so we are actually getting the same version as in the constructor.
    Interface ui;
    ui.keyEvent(key, false /*fDown*/);
+   ui.keyEvent2(key, false /*fDown*/);
 }
 
 /***************************************************************
@@ -149,6 +151,7 @@ void keyboardCallback(unsigned char key, int x, int y)
    // so we are actually getting the same version as in the constructor.
    Interface ui;
    ui.keyEvent(key, true /*fDown*/);
+   ui.keyEvent2(key, true /*fDown*/);
 }
 
 /************************************************************************
@@ -186,8 +189,62 @@ void Interface::keyEvent(int key, bool fDown)
    case ' ':
       isSpacePress = fDown;
       break;
+
+// added new keys
+  /* case 'w':
+       isWPress = fDown;
+       break;
+   case 'r':
+       isRPress = fDown;
+       break;
+   
+   case 'e':
+       isEPress = fDown;
+       break;
+
+   case 'd':
+       isDPress = fDown;
+       break;
+   case 'x':
+       isXPress = fDown;
+       break;*/
+   
    }
 }
+
+
+/***************************************************************
+ * new INTERFACE : KEY EVENT
+ * Either set the up or down event for a given key
+ *   INPUT   key     which key is pressed
+ *           fDown   down or brown
+ ****************************************************************/
+void Interface::keyEvent2(int key, bool fDown)
+{
+    switch (key)
+    {
+    // added new keys
+    case 'w':
+        isWPress = fDown;
+        break;
+    case 'r':
+        isRPress = fDown;
+        break;
+
+    case 'e':
+        isEPress = fDown;
+        break;
+
+    case 'd':
+        isDPress = fDown;
+        break;
+    case 'x':
+        isXPress = fDown;
+        break;
+
+    }
+}
+
 
 /***************************************************************
  * INTERFACE : KEY EVENT
@@ -205,6 +262,18 @@ void Interface::keyEvent()
       isLeftPress++;
    if (isRightPress)
       isRightPress++;
+   //added new key press
+   if (isWPress)
+       isWPress = false;
+   if (isRPress)
+       isRPress = false;
+   if (isEPress)
+       isEPress = false;
+   if (isDPress)
+       isDPress = false;
+   if (isXPress)
+       isXPress = false;
+
    isSpacePress = false;
 }
 
@@ -249,6 +318,14 @@ int          Interface::isDownPress = 0;
 int          Interface::isUpPress = 0;
 int          Interface::isLeftPress = 0;
 int          Interface::isRightPress = 0;
+
+// added new key press
+bool         Interface::isWPress = false;
+bool         Interface::isRPress = false;
+bool         Interface::isEPress = false;
+bool         Interface::isDPress = false;
+bool         Interface::isXPress = false;
+
 bool         Interface::isSpacePress = false;
 bool         Interface::initialized = false;
 double       Interface::timePeriod = 1.0 / 30; // default to 30 frames/second
@@ -296,6 +373,7 @@ void Interface::initialize(int argc, char** argv, const char* title,
    glutKeyboardFunc(keyboardCallback);
    glutSpecialFunc(keyDownCallback);
    glutSpecialUpFunc(keyUpCallback);
+
 #ifdef __APPLE__
    glutWMCloseFunc(closeCallback);
 #endif 

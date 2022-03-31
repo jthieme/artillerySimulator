@@ -2,7 +2,7 @@
  * Header File:
  *    Ground : Represents the ground in the artillery simulation
  * Author:
- *    Br. Helfrich
+ *    Br. Helfrich, Josh Thieme, Lakeram Narine
  * Summary:
  *    Everything about the ground
  ************************************************************************/

@@ -1,3 +1,12 @@
+/***********************************************************************
+ * Header File:
+ *    Velocity : Represents the velocity in the artillery simulation
+ * Author:
+ *    Josh Thieme, Lakeram Narine
+ * Summary:
+ *    Everything about the velocity
+ ************************************************************************/
+
 #pragma once
 #include "direction.h"
 class Velocity

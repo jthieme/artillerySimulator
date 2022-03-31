@@ -2,7 +2,7 @@
  * Source File:
  *    Ground : Represents the ground in the artillery simulation
  * Author:
- *    Br. Helfrich
+ *    Br. Helfrich, Josh Thieme, Lakeram Narine
  * Summary:
  *    Where the ground is located and where the target is drawn
  ************************************************************************/
@@ -189,9 +189,6 @@ bool Ground::hitTarget(const Position& position) const {
     {
         return true;
     }
-
-
-
     else
     {
         return false;

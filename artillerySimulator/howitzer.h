@@ -1,10 +1,10 @@
 /***********************************************************************
  * Header File:
- *    Test Position : Test the Position class
+ *    Howitzer: Everything about the howitzer M777
  * Author:
- *    Br. Helfrich
+ *    Josh Thieme, Lakeram Narine
  * Summary:
- *    All the unit tests for Position
+ *    This is to have the howitzer in the simulation
  ************************************************************************/
 
 

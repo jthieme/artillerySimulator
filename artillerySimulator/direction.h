@@ -1,4 +1,11 @@
-
+/***********************************************************************
+ * Header File:
+ *    Direction : Represents the direction in the artillery simulation
+ * Author:
+ *    Josh Thieme, Lakeram Narine
+ * Summary:
+ *    Everything about the direction for the objects
+ ************************************************************************/
 #pragma once
 
 #include <cassert>      // for ASSERT

@@ -36,14 +36,13 @@ private:
 	Direction direction;
 	
 
-	
-
 public:
 	Bullet() {};
 	void setDirection(double angle){ direction.setRadians(angle); }
 	void setIsFlying(bool isFlying) { this->isFlying = isFlying; }
 	bool getIsFlying() { return isFlying; }
 	void fire(double angle, Position& position);
+	
 	void draw(ogstream& gout){
 		gout.drawProjectile(b_position, 0.5);
 		drawFlight(gout);
@@ -51,10 +50,15 @@ public:
 
 	void drawFlight(ogstream& gout)
 	{
-		for (int i = 0; i < 20; i++)
+		/*for (int i = 0; i < 3; i++)
+		{
+			gout.drawProjectile(flightPos[i],0.5*i );
+		}*/
+		gout.drawProjectile(flightPos, 1.5);
+		/*for (int i = 0; i < 20; i++)
 		{
 			gout.drawProjectile(flightPos[i], 0.5 * (double)i);
-		}
+		}*/
 		
 	}
 
@@ -71,7 +75,7 @@ public:
 		Velocity vel;
 		double time;
 	};
-	Position flightPos[20];
+	Position flightPos;
 };
 
 

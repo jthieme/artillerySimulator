@@ -78,7 +78,7 @@ public:
     void draw(ogstream& gout, double dtime, double dtime2)
     {
         hPlayerOne.draw(gout, dtime);
-        hPlayerTwo.draw(gout, dtime);
+        hPlayerTwo.draw(gout, dtime2);
         ground.draw(gout);
 
         bullet2.draw(gout);
@@ -200,7 +200,7 @@ void callBack(const Interface* pUI, void* p)
 
     }
     // second Howitzer
-    if (pUI->isX())
+    if (pUI->is0())
     {
         pSimulator->time = 0.0;
         if (!pSimulator->bullet2.getIsFlying()) {

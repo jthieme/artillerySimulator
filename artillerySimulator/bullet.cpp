@@ -6,13 +6,15 @@ void Bullet::advance()
 {
 	if (isFlying) {
 
-		for (int i = 0; i < 20; i++)
+		/*for (int i = 0; i < 3; i++)
 		{
-			flightPos[i].setPixelsX(b_position.getPixelsX() *(double)i);
-			flightPos[i].setPixelsY(b_position.getPixelsY() / (double)i);
-			/*projectilePath[i].setPixelsX((double)i * 2.0);
-			projectilePath[i].setPixelsY(ptUpperRight.getPixelsY() / 1.5);*/
-		}
+			flightPos[i].setPixelsX(b_position.getPixelsX()+ i);
+			flightPos[i].setPixelsY(b_position.getPixelsY() - i);
+		}*/
+
+
+		flightPos.setPixelsX(b_position.getPixelsX());
+		flightPos.setPixelsY(b_position.getPixelsY());
 		
 		// get the altitude
 		altitude = b_position.getMetersY();
@@ -41,13 +43,6 @@ void Bullet::advance()
 		//Inertia
 		b_position.addMetersX(ph.velocityFromAcceleration(velocity.getDX(), timeInterval));
 		b_position.addMetersY(ph.velocityFromAcceleration(velocity.getDY(), timeInterval));
-
-
-		
-		//flightPos(, );
-		/*const FlightPath flight;
-		flight.pos(b_position.getMetersX(), b_position.getMetersY());*/
-		
 
 	}
 

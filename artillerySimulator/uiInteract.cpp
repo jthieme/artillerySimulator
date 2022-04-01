@@ -213,7 +213,7 @@ void Interface::keyEvent2(int key, bool fDown)
     switch (key)
     {
     // added new keys
-<<<<<<< HEAD
+
     case '4':
         is4Press = fDown;
         break;
@@ -230,25 +230,7 @@ void Interface::keyEvent2(int key, bool fDown)
         break;
     case '0':
         is0Press = fDown;
-=======
-    case 'W':
-        isWPress = fDown;
-        break;
-    case 'R':
-        isRPress = fDown;
-        break;
 
-    case 'E':
-        isEPress = fDown;
-        break;
-
-    case 'D':
-        isDPress = fDown;
-        break;
-
-    case 'X':
-        isXPress = fDown;
->>>>>>> b97230f230fb7af2913f4ee96f2a74711f50a417
         break;
 
     }
@@ -272,7 +254,6 @@ void Interface::keyEvent()
    if (isRightPress)
       isRightPress++;
    //added new key press
-<<<<<<< HEAD
    if (is4Press)
        is4Press ++;
    if (is6Press)
@@ -283,19 +264,6 @@ void Interface::keyEvent()
        is2Press ++;
    if (is0Press)
        is0Press ++;
-=======
-   if (isWPress)
-       isWPress++;
-   if (isRPress)
-       isRPress++;
-   if (isEPress)
-       isEPress++;
-   if (isDPress)
-       isDPress++;
-   
-
-   isXPress = false;
->>>>>>> b97230f230fb7af2913f4ee96f2a74711f50a417
 
    isSpacePress = false;
 }
@@ -342,21 +310,13 @@ int          Interface::isUpPress = 0;
 int          Interface::isLeftPress = 0;
 int          Interface::isRightPress = 0;
 
-<<<<<<< HEAD
 // added new key press
 int         Interface::is4Press = 0;
 int         Interface::is6Press = 0;
 int         Interface::is8Press = 0;
 int        Interface::is2Press = 0;
 int         Interface::is0Press = 0;
-=======
-// added new key press for 2nd player
-int         Interface::isWPress = 0;
-int         Interface::isRPress = 0;
-int         Interface::isEPress = 0;
-int         Interface::isDPress = 0;
-bool         Interface::isXPress = false;
->>>>>>> b97230f230fb7af2913f4ee96f2a74711f50a417
+
 
 bool         Interface::isSpacePress = false;
 bool         Interface::initialized = false;

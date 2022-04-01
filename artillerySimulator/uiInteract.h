@@ -70,21 +70,14 @@ public:
    bool isSpace()     const { return isSpacePress; };
 
 
-<<<<<<< HEAD
+
    // added new keys
    int  is4()         const { return is4Press; };
    int  is6()         const { return is6Press; };
    int  is8()         const { return is8Press; };
    int  is2()         const { return is2Press; };
    int is0()         const { return is0Press; };
-=======
-   // added new keys for 2nd player
-   int isW()          const { return isWPress; };
-   int isR()          const { return isRPress; };
-   int isE()          const { return isEPress; };
-   int isD()          const { return isDPress; };
-   bool isX()         const { return isXPress; };
->>>>>>> b97230f230fb7af2913f4ee96f2a74711f50a417
+
 
    static void* p;                   // for client
    static void (*callBack)(const Interface*, void*);
@@ -97,7 +90,6 @@ private:
    static unsigned int nextTick;     // time (from clock()) of our next draw
 
    static int  isDownPress;          // is the down arrow currently pressed?
-<<<<<<< HEAD
    static int  isUpPress;            //    "   up         "
    static int  isLeftPress;          //    "   left       "
    static int  isRightPress;         //    "   right      "
@@ -108,19 +100,7 @@ private:
    static int  is8Press;         //    "   W      "
    static int  is2Press;         //    "   R      "
    static int  is0Press;         //    "   R      "
-=======
-   static int  isUpPress;            //    "   up     "
-   static int  isLeftPress;          //    "   left   "
-   static int  isRightPress;         //    "   right  "
-   static bool isSpacePress;         //    "   space  "
-  
-   // new keys for 2nd player
-   static int  isWPress;             //    "   W      "
-   static int  isRPress;             //    "   R      "
-   static int  isEPress;             //    "   E      "
-   static int  isDPress;             //    "   D      "
-   static bool isXPress;             //    "   X      "
->>>>>>> b97230f230fb7af2913f4ee96f2a74711f50a417
+
 };
 
 

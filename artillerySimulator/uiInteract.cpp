@@ -122,7 +122,7 @@ void keyDownCallback(int key, int x, int y)
    // so we are actually getting the same version as in the constructor.
    Interface ui;
    ui.keyEvent(key, true /*fDown*/);
-   ui.keyEvent(key, true /*fDown*/);
+   ui.keyEvent2(key, true /*fDown*/);
 }
 
 /************************************************************************
@@ -189,25 +189,6 @@ void Interface::keyEvent(int key, bool fDown)
    case ' ':
       isSpacePress = fDown;
       break;
-
-// added new keys
-  /* case 'w':
-       isWPress = fDown;
-       break;
-   case 'r':
-       isRPress = fDown;
-       break;
-   
-   case 'e':
-       isEPress = fDown;
-       break;
-
-   case 'd':
-       isDPress = fDown;
-       break;
-   case 'x':
-       isXPress = fDown;
-       break;*/
    
    }
 }
@@ -224,21 +205,22 @@ void Interface::keyEvent2(int key, bool fDown)
     switch (key)
     {
     // added new keys
-    case 'w':
+    case 'W':
         isWPress = fDown;
         break;
-    case 'r':
+    case 'R':
         isRPress = fDown;
         break;
 
-    case 'e':
+    case 'E':
         isEPress = fDown;
         break;
 
-    case 'd':
+    case 'D':
         isDPress = fDown;
         break;
-    case 'x':
+
+    case 'X':
         isXPress = fDown;
         break;
 
@@ -264,15 +246,16 @@ void Interface::keyEvent()
       isRightPress++;
    //added new key press
    if (isWPress)
-       isWPress = false;
+       isWPress++;
    if (isRPress)
-       isRPress = false;
+       isRPress++;
    if (isEPress)
-       isEPress = false;
+       isEPress++;
    if (isDPress)
-       isDPress = false;
-   if (isXPress)
-       isXPress = false;
+       isDPress++;
+   
+
+   isXPress = false;
 
    isSpacePress = false;
 }
@@ -319,11 +302,11 @@ int          Interface::isUpPress = 0;
 int          Interface::isLeftPress = 0;
 int          Interface::isRightPress = 0;
 
-// added new key press
-bool         Interface::isWPress = false;
-bool         Interface::isRPress = false;
-bool         Interface::isEPress = false;
-bool         Interface::isDPress = false;
+// added new key press for 2nd player
+int         Interface::isWPress = 0;
+int         Interface::isRPress = 0;
+int         Interface::isEPress = 0;
+int         Interface::isDPress = 0;
 bool         Interface::isXPress = false;
 
 bool         Interface::isSpacePress = false;

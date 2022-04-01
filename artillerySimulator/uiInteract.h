@@ -63,19 +63,19 @@ public:
    double frameRate() const { return timePeriod; };
 
    // Get various key events
-   int  isDown()      const { return isDownPress; };
-   int  isUp()        const { return isUpPress; };
-   int  isLeft()      const { return isLeftPress; };
+   int  isDown()      const { return isDownPress;  };
+   int  isUp()        const { return isUpPress;    };
+   int  isLeft()      const { return isLeftPress;  };
    int  isRight()     const { return isRightPress; };
    bool isSpace()     const { return isSpacePress; };
 
 
-   // added new keys
-   bool  isW()         const { return isWPress; };
-   bool  isR()         const { return isRPress; };
-   bool  isE()         const { return isEPress; };
-   bool  isD()         const { return isDPress; };
-   bool  isX()         const { return isXPress; };
+   // added new keys for 2nd player
+   int isW()          const { return isWPress; };
+   int isR()          const { return isRPress; };
+   int isE()          const { return isEPress; };
+   int isD()          const { return isDPress; };
+   bool isX()         const { return isXPress; };
 
    static void* p;                   // for client
    static void (*callBack)(const Interface*, void*);
@@ -88,16 +88,17 @@ private:
    static unsigned int nextTick;     // time (from clock()) of our next draw
 
    static int  isDownPress;          // is the down arrow currently pressed?
-   static int  isUpPress;            //    "   up         "
-   static int  isLeftPress;          //    "   left       "
-   static int  isRightPress;         //    "   right      "
-   static bool isSpacePress;         //    "   space      "
-   // new key
-   static bool  isWPress;         //    "   W      "
-   static bool  isRPress;         //    "   R      "
-   static bool  isEPress;         //    "   W      "
-   static bool  isDPress;         //    "   R      "
-   static bool  isXPress;         //    "   R      "
+   static int  isUpPress;            //    "   up     "
+   static int  isLeftPress;          //    "   left   "
+   static int  isRightPress;         //    "   right  "
+   static bool isSpacePress;         //    "   space  "
+  
+   // new keys for 2nd player
+   static int  isWPress;             //    "   W      "
+   static int  isRPress;             //    "   R      "
+   static int  isEPress;             //    "   E      "
+   static int  isDPress;             //    "   D      "
+   static bool isXPress;             //    "   X      "
 };
 
 

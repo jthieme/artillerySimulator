@@ -15,8 +15,8 @@
 #include "uiDraw.h"     // for RANDOM and DRAW*
 #include "ground.h"     // for GROUND
 #include "position.h"   // for POINT
-#include "bullet.h"
-#include "direction.h"
+#include "bullet.h"     // for BULLET
+#include "direction.h"  // for DIRECTION
 
 
 
@@ -55,17 +55,17 @@ public:
 
 	void rotate(const Interface* pUI)
 	{
-		if (pUI->isRight())
+		if (pUI->isRight() || pUI->isR())
 			angle += 0.05;
-		if (pUI->isLeft())
+		if (pUI->isLeft() || pUI->isD())
 			angle -= 0.05;
 	}
 	
 	void raise(const Interface* pUI)
 	{
-		if (pUI->isUp())
+		if (pUI->isUp() || pUI->isE())
 			angle += (angle >= 0 ? -0.003 : 0.003);
-		if (pUI->isDown())
+		if (pUI->isDown() || pUI->isD())
 			angle += (angle >= 0 ? 0.003 : -0.003);
 	}
 

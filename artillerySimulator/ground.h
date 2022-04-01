@@ -55,5 +55,5 @@ private:
     Position posTarget;            // the location of the target, in pixels
     int iHowitzer;                 // the location of the howitzer
     int iHowitzer2;
-    const Position posUpperRight;  // size of the screen
+    Position posUpperRight;  // size of the screen
 };

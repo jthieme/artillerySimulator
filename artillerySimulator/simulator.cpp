@@ -41,14 +41,11 @@ public:
         isfired(false)
 
     {
-        // set the Howizters X postion 
-        ptHowitzerOne[1].setPixelsX(Position(ptUpperRight).getPixelsX() / 1.2);
+        ptHowitzerOne[1].setPixelsX(Position(ptUpperRight).getPixelsX() / 1.2  );
         ptHowitzerOne[2].setPixelsX(Position(ptUpperRight).getPixelsX() / 2.5);
       
-        // Set the Howtizers on a flat surface
         ground.reset(ptHowitzerOne[1], ptHowitzerOne[2]);
       
-        // Set the Position of Howitzer
         hPlayerOne.setPosition(ptHowitzerOne[1]);
         hPlayerTwo.setPosition(ptHowitzerOne[2]);
 
@@ -60,7 +57,9 @@ public:
     }
 
     Ground ground;                 // the ground
-    Position  ptHowitzerOne[2];    // location of the howitzer
+    Position  projectilePath;  // path of the projectile
+    Position  ptHowitzerOne[2];          // location of the howitzer
+                                         // location of the howitzer
     Position  ptUpperRight;        // size of the screen
     Howitzer hPlayerOne;          // first howitzer instance
     Howitzer hPlayerTwo;         // second howitzer instance
@@ -78,12 +77,14 @@ public:
     *************************************/
     void draw(ogstream& gout, double dtime, double dtime2)
     {
-        ground.draw(gout);
         hPlayerOne.draw(gout, dtime);
-        hPlayerTwo.draw(gout, dtime2);
+        hPlayerTwo.draw(gout, dtime);
+        ground.draw(gout);
+
         bullet2.draw(gout);
-        bullet.draw(gout); 
-        cout << "this is flight pos" << bullet.flightPos << endl;
+        bullet.draw(gout);
+       
+        
     }
 
     void reset() {};
@@ -111,14 +112,13 @@ public:
             gout << "Player Two hit the Target!!!" << "\n";
         }
 
-        // check bullet 1 hit ground
         if (ground.hitGround(bullet.getPosition(), 0.8))
         {
             bullet.setIsFlying(false);
             gout << "Player One hit the Ground!!!" << "\n";
         }
 
-        // check if bullet two hit the ground
+        // check if bullet 2 two hit the ground
         if (ground.hitGround(bullet2.getPosition(), 0.8))
         {
             bullet2.setIsFlying(false);
@@ -181,9 +181,35 @@ void callBack(const Interface* pUI, void* p)
     Simulator* pSimulator = (Simulator*)p;
     ogstream gout(Position(10.0, pSimulator->ptUpperRight.getPixelsY() - 20.0));
 
-    //Get the Input from User
-    pSimulator->simulatorInput(pUI);
-    
+    // move the howitzer
+    pSimulator->hPlayerOne.rotate(pUI);
+    pSimulator->hPlayerOne.raise(pUI);
+
+    pSimulator->hPlayerTwo.rotate2(pUI);
+    pSimulator->hPlayerTwo.raise2(pUI);
+
+    // Intialize the movement of the bullet
+    if (pUI->isSpace())
+    {
+        pSimulator->time = 0.0;
+        if (!pSimulator->bullet.getIsFlying()) {
+            double angle = pSimulator->hPlayerOne.getAngle();
+            Position pos = pSimulator->hPlayerOne.getPosition();
+            pSimulator->bullet.fire(angle, pos);
+        }
+
+    }
+    // second Howitzer
+    if (pUI->isX())
+    {
+        pSimulator->time = 0.0;
+        if (!pSimulator->bullet2.getIsFlying()) {
+            double angle = pSimulator->hPlayerTwo.getAngle();
+            Position pos = pSimulator->hPlayerTwo.getPosition();
+            pSimulator->bullet2.fire(angle, pos);
+        }
+    }
+
     // advance time by half a second.
     pSimulator->time += 0.5;
     pSimulator->time2 += 0.5;

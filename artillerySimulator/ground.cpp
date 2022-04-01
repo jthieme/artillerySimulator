@@ -48,6 +48,7 @@ void Ground::reset(Position& posHowitzer, Position& posHowitzer2)
     else
         posTarget.setPixelsX(random((int)(width * 0.55), (int)(width * 0.95)));
     assert(iHowitzer >= 0 && iHowitzer < width);
+    assert(iHowitzer2 >= 0 && iHowitzer2 < width);
 
     // determine the maximum and minimum altitude
     Position posMinimum(0.0, MIN_ALTITUDE);
@@ -61,9 +62,9 @@ void Ground::reset(Position& posHowitzer, Position& posHowitzer2)
     {
         // put the howitzer on flat ground
         if (i > iHowitzer - WIDTH_HOWITZER / 2 && i < iHowitzer + WIDTH_HOWITZER / 2 )
-        {
             ground[i] = ground[i - 1];
-        }
+        else if (i > iHowitzer2 - WIDTH_HOWITZER / 2 && i < iHowitzer2 + WIDTH_HOWITZER / 2)
+           ground[i] = ground[i - 1];
         else
         {
             // what percentage of the elevation were we at?
@@ -152,14 +153,11 @@ void Ground::draw(ogstream& gout) const
         gout = posText;
         gout << (int)(pos.getMetersY()) << "m";
     }
-
 }
 
-
-
 /***********************************************************
- * HIT GROUND
- * Did the bullet hit the ground?
+ * HIT GROUND / TARGET
+ * Did the bullet hit the ground or the target?
  **********************************************************/
 bool Ground::hitGround(const Position& position, int bulletWidth) const
 {
@@ -191,17 +189,6 @@ bool Ground::hitTarget(const Position& position) const {
     int yMin = (int)(position.getPixelsY() - 6.0);
     int yMax = (int)(position.getPixelsY() + 6.0);
 
-
-
-    if ((posTarget.getPixelsX() < xMax && posTarget.getPixelsX() > xMin) && (posTarget.getPixelsY() < yMax && posTarget.getPixelsY() > yMin))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    };
-
-
-
+    return (posTarget.getPixelsX() < xMax && posTarget.getPixelsX() > xMin) && 
+       (posTarget.getPixelsY() < yMax && posTarget.getPixelsY() > yMin) ? true : false;
 }

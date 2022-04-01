@@ -178,6 +178,10 @@ bool Ground::hitGround(const Position& position, int bulletWidth) const
     return position.getPixelsY() < maxElevation;
 }
 
+/***********************************************************
+ * HIT TARGET
+ * Did the bullet hit the target?
+ **********************************************************/
 
 bool Ground::hitTarget(const Position& position) const {
 

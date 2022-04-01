@@ -71,11 +71,11 @@ public:
 
 
    // added new keys
-   bool  isW()         const { return isWPress; };
-   bool  isR()         const { return isRPress; };
-   bool  isE()         const { return isEPress; };
-   bool  isD()         const { return isDPress; };
-   bool  isX()         const { return isXPress; };
+   int  is4()         const { return is4Press; };
+   int  is6()         const { return is6Press; };
+   int  is8()         const { return is8Press; };
+   int  is2()         const { return is2Press; };
+   int is0()         const { return is0Press; };
 
    static void* p;                   // for client
    static void (*callBack)(const Interface*, void*);
@@ -93,11 +93,11 @@ private:
    static int  isRightPress;         //    "   right      "
    static bool isSpacePress;         //    "   space      "
    // new key
-   static bool  isWPress;         //    "   W      "
-   static bool  isRPress;         //    "   R      "
-   static bool  isEPress;         //    "   W      "
-   static bool  isDPress;         //    "   R      "
-   static bool  isXPress;         //    "   R      "
+   static int  is4Press;         //    "   W      "
+   static int  is6Press;         //    "   R      "
+   static int  is8Press;         //    "   W      "
+   static int  is2Press;         //    "   R      "
+   static int  is0Press;         //    "   R      "
 };
 
 

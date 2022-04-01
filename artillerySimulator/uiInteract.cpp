@@ -154,6 +154,14 @@ void keyboardCallback(unsigned char key, int x, int y)
    ui.keyEvent2(key, true /*fDown*/);
 }
 
+void keyboardCallbackUp(unsigned char key, int x, int y)
+{
+    // Even though this is a local variable, all the members are static
+    // so we are actually getting the same version as in the constructor.
+    Interface ui;
+    ui.keyEvent(key, false /*fDown*/);
+    ui.keyEvent2(key, false /*fDown*/);
+}
 /************************************************************************
  * CLOSE CALLBACK
  * Get the close button to appear so we can exit
@@ -224,22 +232,22 @@ void Interface::keyEvent2(int key, bool fDown)
     switch (key)
     {
     // added new keys
-    case 'w':
-        isWPress = fDown;
+    case '4':
+        is4Press = fDown;
         break;
-    case 'r':
-        isRPress = fDown;
-        break;
-
-    case 'e':
-        isEPress = fDown;
+    case '6':
+        is6Press = fDown;
         break;
 
-    case 'd':
-        isDPress = fDown;
+    case '8':
+        is8Press = fDown;
         break;
-    case 'x':
-        isXPress = fDown;
+
+    case '2':
+        is2Press = fDown;
+        break;
+    case '0':
+        is0Press = fDown;
         break;
 
     }
@@ -263,16 +271,16 @@ void Interface::keyEvent()
    if (isRightPress)
       isRightPress++;
    //added new key press
-   if (isWPress)
-       isWPress = false;
-   if (isRPress)
-       isRPress = false;
-   if (isEPress)
-       isEPress = false;
-   if (isDPress)
-       isDPress = false;
-   if (isXPress)
-       isXPress = false;
+   if (is4Press)
+       is4Press ++;
+   if (is6Press)
+       is6Press ++;
+   if (is8Press)
+       is8Press ++;
+   if (is2Press)
+       is2Press ++;
+   if (is0Press)
+       is0Press ++;
 
    isSpacePress = false;
 }
@@ -320,11 +328,11 @@ int          Interface::isLeftPress = 0;
 int          Interface::isRightPress = 0;
 
 // added new key press
-bool         Interface::isWPress = false;
-bool         Interface::isRPress = false;
-bool         Interface::isEPress = false;
-bool         Interface::isDPress = false;
-bool         Interface::isXPress = false;
+int         Interface::is4Press = 0;
+int         Interface::is6Press = 0;
+int         Interface::is8Press = 0;
+int        Interface::is2Press = 0;
+int         Interface::is0Press = 0;
 
 bool         Interface::isSpacePress = false;
 bool         Interface::initialized = false;
@@ -371,6 +379,7 @@ void Interface::initialize(int argc, char** argv, const char* title,
    glutDisplayFunc(drawCallback);
    glutIdleFunc(drawCallback);
    glutKeyboardFunc(keyboardCallback);
+   glutKeyboardUpFunc(keyboardCallbackUp);
    glutSpecialFunc(keyDownCallback);
    glutSpecialUpFunc(keyUpCallback);
 

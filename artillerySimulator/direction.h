@@ -35,11 +35,4 @@ public:
 	double radiansFromDegrees(double degree) { return degree * (PI / 180); }
 
 	double getDegrees() { return radians * 180 / PI; };
-
-	//void setDown() { radians = M_PI; }
-	//void setUp() { radians = 0.0; }
-	//void setRight() { radians = M_PI_2; }
-	//void setLeft() { radians = - M_PI_2; }
-	//void reverse() { setRadians(radians + M_PI); }
-
 };

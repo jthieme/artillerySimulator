@@ -34,105 +34,44 @@ private:
 	double density;
 	double timeInterval = 0.5;
 	Direction direction;
+	
+
+	
+
 public:
 	Bullet() {};
-	/*Bullet(Position position);*/
-	void setPosition(Position& position);
-	void setDirection(double angle);
-	void getDirection();
+	void setDirection(double angle){ direction.setRadians(angle); }
 	void setIsFlying(bool isFlying) { this->isFlying = isFlying; }
 	bool getIsFlying() { return isFlying; }
-	void reset();
 	void fire(double angle, Position& position);
-	void advance();
-	void draw(ogstream& gout);
-
-	Position getPosition();
-	double getSpeed() { return velocity.getSpeed(); }
-	void getAngle(double angle);
-	double getRadius() { return radius; }
-	//bool hitTarget(Ground posTarget, int bulletWidth);
-};
-
-void Bullet::draw(ogstream& gout)
-{
-	gout.drawProjectile(b_position, 2.5);
-}
-
-void Bullet::advance()
-{
-	if (isFlying) {
-
-		// get the altitude
-		altitude = b_position.getMetersY();
-
-		// get speed
-		double speed = getSpeed();
-		Physics ph;
-
-		// Modify the Velocity to handle wind Resistnace
-		double density = ph.densityFromAltitude(altitude);
-		double dragCoefficient = ph.dragFromSpeed(speed, altitude);
-		double windResistance = ph.forceFromDrag(density, dragCoefficient, radius, speed);
-		double accelerationDrag = ph.accelerationFromForce(windResistance, mass);
-		Velocity velocitywind(ph.velocityFromAcceleration(accelerationDrag, timeInterval), direction);
-
-
-
-		velocitywind.reverse();
-		velocity += velocitywind;
-
-		////Modify velocity to handle gravity
-		double accelrationGravity = ph.gravityFromAltitude(altitude);
-		double velocityGravity = ph.velocityFromAcceleration(accelrationGravity, timeInterval);
-
-		Velocity velgravity(0, -velocityGravity);
-		velocity += (velgravity);
-
-		//Inertia
-		b_position.addMetersX(ph.velocityFromAcceleration(velocity.getDX(), timeInterval));
-		b_position.addMetersY(ph.velocityFromAcceleration(velocity.getDY(), timeInterval));
+	void draw(ogstream& gout){
+		gout.drawProjectile(b_position, 0.5);
+		drawFlight(gout);
 	}
 
-}
+	void drawFlight(ogstream& gout)
+	{
+		for (int i = 0; i < 20; i++)
+		{
+			gout.drawProjectile(flightPos[i], 0.5 * (double)i);
+		}
+		
+	}
 
-void Bullet::setPosition(Position& position)
-{
-	b_position.setPixelsX(position.getPixelsX());
-	b_position.setPixelsY(position.getPixelsY());
-}
+	Position getPosition(){ return b_position; }
+	double getSpeed() { return velocity.getSpeed(); }
+	double getRadius() { return radius; }
+	void advance();
+	void reset();
+	void setPosition(Position& position);
 
-void Bullet::getAngle(double angle)
-{
+	struct FlightPath
+	{		
+		Position pos;
+		Velocity vel;
+		double time;
+	};
+	Position flightPos[20];
+};
 
-}
 
-void Bullet::setDirection(double angle)
-{
-	direction.setRadians(angle);
-}
-
-void Bullet::fire(double angle, Position& position)
-{
-	setIsFlying(true);
-	setDirection(angle);
-	setPosition(position);
-	velocity.setSpeedAngle(muzzel_velocity, direction);
-
-}
-
-Position Bullet::getPosition()
-{
-	return b_position;
-}
-
-//bool Bullet::hitTarget(Ground posTarget, int bulletWidth)
-//{
-//	// if the bullets positon is within the position of the target, return true, otherwise return false
-//	return bulletWidth == posTarget.getPixelsX() ? true : false;
-//}
-
-void Bullet::reset()
-{
-
-}

@@ -19,7 +19,9 @@
 #include "ground.h"     // for GROUND
 #include "position.h"   // for POINT
 #include "bullet.h"
+#include "bullet.cpp"
 #include "howitzer.h"
+#include "howitzer.cpp"
 
 using namespace std;
 
@@ -34,18 +36,23 @@ public:
         ptUpperRight(ptUpperRight),
         ground(ptUpperRight),
         time(0.0),
+        time2(0.0),
         angle(0.0),
         isfired(false)
 
     {
-        ptHowitzerOne[1].setPixelsX(Position(ptUpperRight).getPixelsX() / 1.2  );
+        // set the Howizters X postion 
+        ptHowitzerOne[1].setPixelsX(Position(ptUpperRight).getPixelsX() / 1.2);
         ptHowitzerOne[2].setPixelsX(Position(ptUpperRight).getPixelsX() / 2.5);
       
+        // Set the Howtizers on a flat surface
         ground.reset(ptHowitzerOne[1], ptHowitzerOne[2]);
       
+        // Set the Position of Howitzer
         hPlayerOne.setPosition(ptHowitzerOne[1]);
         hPlayerTwo.setPosition(ptHowitzerOne[2]);
 
+        // Grabbing howitzer position and give it to the bullet
         Position hPosOne = hPlayerOne.getPosition();
         Position hPosOne2 = hPlayerTwo.getPosition();
         bullet.setPosition(hPosOne);
@@ -53,33 +60,40 @@ public:
     }
 
     Ground ground;                 // the ground
-    Position  projectilePath;  // path of the projectile
-    Position  ptHowitzerOne[2];          // location of the howitzer
-                                         // location of the howitzer
+    Position  ptHowitzerOne[2];    // location of the howitzer
     Position  ptUpperRight;        // size of the screen
-    Howitzer hPlayerOne;
-    Howitzer hPlayerTwo;
-    Bullet bullet;
-    Bullet bullet2;
-    double angle;                  // angle of the howitzer 
-    double time;               // amount of time since the last firing
+    Howitzer hPlayerOne;          // first howitzer instance
+    Howitzer hPlayerTwo;         // second howitzer instance
+    Bullet bullet;              // first bullet for the first Howitzer
+    Bullet bullet2;             // second bullet for the second Howitzer
+    double angle;               // angle of the howitzer 
+    double time;               // amount of time since the last firing for first howitzer
+    double time2;             // amount of time since last firing for second howitzer
     bool isfired;
 
-    void draw(ogstream& gout, double dtime)
-    {
-        hPlayerOne.draw(gout, dtime);
-        hPlayerTwo.draw(gout, dtime);
-        ground.draw(gout);
 
+    /***************************************
+    * DRAW ALL THE ELEMENTS AND OBJECTS 
+    * ON SCREEN
+    *************************************/
+    void draw(ogstream& gout, double dtime, double dtime2)
+    {
+        ground.draw(gout);
+        hPlayerOne.draw(gout, dtime);
+        hPlayerTwo.draw(gout, dtime2);
         bullet2.draw(gout);
-        bullet.draw(gout);
-       
-        
+        bullet.draw(gout); 
+        cout << "this is flight pos" << bullet.flightPos << endl;
     }
 
     void reset() {};
 
-    void collision(ogstream& gout)
+    /***************************************
+    * CHECK COLLISION: this will check for 
+    * collison of the bullets to the ground 
+    * and the Target
+    *************************************/
+    void checkCollision(ogstream& gout)
     {
         // check if Bullet 1 hit target
         if (ground.hitTarget(bullet.getPosition()))
@@ -88,6 +102,7 @@ public:
             bullet2.setIsFlying(false);
             gout << "Player One  hit the Target!!!" << "\n";
         }
+
         // check if bullet 2 hit target
         if (ground.hitTarget(bullet2.getPosition()))
         {
@@ -96,6 +111,7 @@ public:
             gout << "Player Two hit the Target!!!" << "\n";
         }
 
+        // check bullet 1 hit ground
         if (ground.hitGround(bullet.getPosition(), 0.8))
         {
             bullet.setIsFlying(false);
@@ -108,6 +124,46 @@ public:
             bullet2.setIsFlying(false);
             gout << "Player Two hit the Ground!!!" << "\n";
         }
+    }
+
+   /***************************************
+   * CHECK FOR USER KEY PRESSES: this will check for
+   * user input and controls the Howitzer
+   * accordingly
+   *************************************/
+    void simulatorInput(const Interface* pUI)
+    {
+        // move the howitzerOne
+        hPlayerOne.rotate(pUI);
+        hPlayerOne.raise(pUI);
+
+        //move howitzerTwo
+        hPlayerTwo.rotate2(pUI);
+        hPlayerTwo.raise2(pUI);
+
+        
+        // Intialize the movement of the bullet from first Howitzer
+        if (pUI->isSpace())
+        {
+            time = 0.0;
+            if (!bullet.getIsFlying()) {
+                double angle = hPlayerOne.getAngle();
+                Position pos = hPlayerOne.getPosition();
+                bullet.fire(angle, pos);
+            }
+
+        }
+        // Intialize the movement of the bullet from second Howitzer
+        if (pUI->is0())
+        {
+            time2 = 0.0;
+            if (!bullet2.getIsFlying()) {
+                double angle = hPlayerTwo.getAngle();
+                Position pos = hPlayerTwo.getPosition();
+                bullet2.fire(angle, pos);
+            }
+        }
+
     }
 };
 
@@ -125,47 +181,22 @@ void callBack(const Interface* pUI, void* p)
     Simulator* pSimulator = (Simulator*)p;
     ogstream gout(Position(10.0, pSimulator->ptUpperRight.getPixelsY() - 20.0));
 
-    // move the howitzer
-    pSimulator->hPlayerOne.rotate(pUI);
-    pSimulator->hPlayerOne.raise(pUI);
-
-    pSimulator->hPlayerTwo.rotate2(pUI);
-    pSimulator->hPlayerTwo.raise2(pUI);
-
-    // Intialize the movement of the bullet
-    if (pUI->isSpace())
-    {
-        pSimulator->time = 0.0;
-        if (!pSimulator->bullet.getIsFlying()) {
-            double angle = pSimulator->hPlayerOne.getAngle();
-            Position pos = pSimulator->hPlayerOne.getPosition();
-            pSimulator->bullet.fire(angle, pos);
-        }
-
-    }
-    // second Howitzer
-    if (pUI->isX())
-    {
-        pSimulator->time = 0.0;
-        if (!pSimulator->bullet2.getIsFlying()) {
-            double angle = pSimulator->hPlayerTwo.getAngle();
-            Position pos = pSimulator->hPlayerTwo.getPosition();
-            pSimulator->bullet2.fire(angle, pos);
-        }
-    }
-
+    //Get the Input from User
+    pSimulator->simulatorInput(pUI);
+    
     // advance time by half a second.
     pSimulator->time += 0.5;
+    pSimulator->time2 += 0.5;
 
     //Draw all the elements on the screen
-    pSimulator->draw(gout, pSimulator->time);
+    pSimulator->draw(gout, pSimulator->time, pSimulator->time2);
 
     //Advance the bullet
     pSimulator->bullet.advance();
     pSimulator->bullet2.advance();
 
-    //Continually watch for Collision
-    pSimulator->collision(gout);
+    //continually watch for Collision
+    pSimulator->checkCollision(gout);
 
     // draw some text on the screen
     gout.setf(ios::fixed | ios::showpoint);
@@ -205,7 +236,5 @@ int main(int argc, char** argv)
 
     // set everything into action
     ui.run(callBack, &Simulator);
-
-
     return 0;
 }

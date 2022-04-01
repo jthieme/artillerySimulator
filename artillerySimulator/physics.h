@@ -34,7 +34,6 @@ public:
 		double range;
 	};
 
-
 	double areaFromRadius(double radius);
 	double forceFromDrag(double density, double drag, double radius, double velocity);
 	double accelerationFromForce(double force, double mass);

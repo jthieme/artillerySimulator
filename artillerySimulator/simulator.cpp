@@ -1,16 +1,16 @@
-/*************************************************************
+/*****************************************************************
  * 1. Name:
  *      Simulator
  * 2. Assignment Name:
- *      Lab 12: Code Complete
+ *      Lab 12: Artillery Final 
  * 3. Assignment Description:
  *      Simulate firing the M777 howitzer 15mm artillery piece
  * 4. What was the hardest part? Be as specific as possible.
  *      Ensuring that the collision detection was there, as well
  *      as getting the bullet to fire in the direction of the 
- *      howitzer
+ *      howitzer, along with getting the trail of the bullet.
  * 5. How long did it take for you to complete the assignment?
- *      ~ 6 hours
+ *      ~ 12 hours
  *****************************************************************/
 
 #include <cassert>      // for ASSERT
@@ -18,24 +18,24 @@
 #include "uiDraw.h"     // for RANDOM and DRAW*
 #include "ground.h"     // for GROUND
 #include "position.h"   // for POINT
-#include "bullet.h"
+#include "bullet.h"     // for BULLET
 #include "bullet.cpp"
-#include "howitzer.h"
+#include "howitzer.h"   // for HOWITZER
 #include "howitzer.cpp"
 
 using namespace std;
 
 /*************************************************************************
  * Simulator
- * Test structure to capture the LM that will move around the screen
+ * Class that handles the gameplay
  *************************************************************************/
 class Simulator
 {
 public:
-    /*************************************
-    * This is the Simulator constructor we intialize the member
-    * variables here when an
-    ****************************/
+    /*************************************************
+    * This is the Simulator constructor we intialize
+    * the member variables here when an
+    *************************************************/
     Simulator(Position ptUpperRight) :
         ptUpperRight(ptUpperRight),
         ground(ptUpperRight),
@@ -44,13 +44,16 @@ public:
         angle(0.0)
 
     {
-        ptHowitzerOne[1].setPixelsX(Position(ptUpperRight).getPixelsX() / 1.2  );
-        ptHowitzerOne[2].setPixelsX(Position(ptUpperRight).getPixelsX() / 2.5);
+        // set the Howitzers pixels
+        ptHowitzerOne[0].setPixelsX(Position(ptUpperRight).getPixelsX() / 1.2);
+        ptHowitzerOne[1].setPixelsX(Position(ptUpperRight).getPixelsX() / 2.5);
       
-        ground.reset(ptHowitzerOne[1], ptHowitzerOne[2]);
+        // set the Howtizers on the ground
+        ground.reset(ptHowitzerOne[0], ptHowitzerOne[1]);
       
-        hPlayerOne.setPosition(ptHowitzerOne[1]);
-        hPlayerTwo.setPosition(ptHowitzerOne[2]);
+        // set the Howitzers positions
+        hPlayerOne.setPosition(ptHowitzerOne[0]);
+        hPlayerTwo.setPosition(ptHowitzerOne[1]);
 
         // Grabbing howitzer position and give it to the bullet
         Position hPosOne = hPlayerOne.getPosition();
@@ -60,39 +63,46 @@ public:
         bullet2.setPosition(hPosOne2);
     }
 
-    Ground ground;                 // the ground
-    Position  projectilePath;  // path of the projectile
-    Position  ptHowitzerOne[2];          // location of the howitzer
-    Position  ptUpperRight;        // size of the screen
-    Howitzer hPlayerOne;          // first howitzer instance
+    Ground ground;               // the ground
+    Position  projectilePath;    // path of the projectile
+    Position  ptHowitzerOne[2];  // location of the howitzer
+    Position  ptUpperRight;      // size of the screen
+    Howitzer hPlayerOne;         // first howitzer instance
     Howitzer hPlayerTwo;         // second howitzer instance
-    Bullet bullet;              // first bullet for the first Howitzer
-    Bullet bullet2;             // second bullet for the second Howitzer
-    double angle;               // angle of the howitzer 
-    double time;               // amount of time since the last firing for first howitzer
-    double time2;             // amount of time since last firing for second howitzer
+    Bullet bullet;               // first bullet for the first Howitzer
+    Bullet bullet2;              // second bullet for the second Howitzer
+    double angle;                // angle of the howitzer 
+    double time;                 // amount of time since the last firing for first howitzer
+    double time2;                // amount of time since last firing for second howitzer
+    bool bulletHitTarget = false;
+    bool bullet2HitTarget = false;
+    bool bulletHitGround = false;
+    bool bullet2HitGround = false;
 
 
-    /***************************************
-    * DRAW ALL THE ELEMENTS AND OBJECTS 
-    * ON SCREEN
-    *************************************/
+    /************************************************
+    * DRAW 
+    * Display all the elements and objects on screen
+    *************************************************/
     void draw(ogstream& gout, double dtime, double dtime2)
     {
+        // draw each howitzer
         hPlayerOne.draw(gout, dtime);
         hPlayerTwo.draw(gout, dtime2);
+        
+        // draw the ground
         ground.draw(gout);
 
+        // draw each bullet
         bullet2.draw(gout);
         bullet.draw(gout);   
     }
 
-
-    /***************************************
-    * CHECK COLLISION: this will check for 
-    * collison of the bullets to the ground 
-    * and the Target
-    *************************************/
+    /************************************************
+    * CHECK COLLISION
+    * This will check for collison of the bullets to
+    * the ground and the Target
+    ************************************************/
     void checkCollision(ogstream& gout)
     {
         // check if Bullet 1 hit target
@@ -100,7 +110,7 @@ public:
         {
             bullet.bulletCollide();
             bullet2.bulletCollide();
-            gout << "Player One  hit the Target!!!" << "\n";  
+            bulletHitTarget = true;
         }
 
         // check if bullet 2 hit target
@@ -108,28 +118,29 @@ public:
         {
             bullet.bulletCollide();
             bullet2.bulletCollide();
-            gout << "Player Two hit the Target!!!" << "\n";
+            bullet2HitTarget = true;
         }
-
+        // check if bullet 1 two hit the ground
         if (ground.hitGround(bullet.getPosition(), 0.8))
         {
             bullet.bulletCollide();
-            gout << "Player One hit the Ground!!!" << "\n";
+            bulletHitGround = true;
         }
 
         // check if bullet 2 two hit the ground
         if (ground.hitGround(bullet2.getPosition(), 0.8))
         {
             bullet2.bulletCollide();
-            gout << "Player Two hit the Ground!!!" << "\n";
+            bullet2HitGround = true;
         }
     }
     
-   /***************************************
+   /**************************************************
+   * SIMULATOR INPUT
    * CHECK FOR USER KEY PRESSES: this will check for
    * user input and controls the Howitzer
    * accordingly
-   *************************************/
+   ***************************************************/
     void simulatorInput(const Interface* pUI)
     {
         // move the howitzerOne
@@ -163,36 +174,40 @@ public:
                 bullet2.setPath();
             }
         }
-
     }
 
     /**************************************************
     * Display the Game info on Screen
-    *****************************************/
+    **************************************************/
     void displayGameInfo(ogstream& gout)
     {
         // Display time since the Bullets fired
-       
-      
         gout.setf(ios::fixed | ios::showpoint);
         gout.precision(1);
         gout << "    Time since the bullet was fired: "
-            << time << "s\n";
+             << time << "s\n";
 
-        // Display the Message for Collision
-
+        // Display the Message for Collisions
+        if (bulletHitTarget)
+           gout << "               Player One hit the Target!!!" << "\n";
+        else if (bulletHitGround)
+           gout << "               Player One hit the Ground!!!" << "\n";
+        
+        if (bullet2HitTarget)
+           gout << "               Player Two hit the Target!!!" << "\n";
+        else if (bullet2HitGround)
+           gout << "               Player Two hit the Ground!!!" << "\n";
 
     }
-
 };
 
-/*************************************
+/********************************************************
  * All the interesting work happens here, when
  * I get called back from OpenGL to draw a frame.
  * When I am finished drawing, then the graphics
  * engine will wait until the proper amount of
  * time has passed and put the drawing on the screen.
- **************************************/
+ ********************************************************/
 void callBack(const Interface* pUI, void* p)
 {
     // the first step is to cast the void pointer into a game object. This
@@ -225,9 +240,9 @@ void callBack(const Interface* pUI, void* p)
 
 double Position::metersFromPixels = 40.0;
 
-/*********************************
+/*************************************************
  * Initialize the simulation and set it in motion
- *********************************/
+ ************************************************/
 #ifdef _WIN32_X
 #include <windows.h>
 int WINAPI wWinMain(

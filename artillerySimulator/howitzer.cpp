@@ -1,4 +1,4 @@
-/******************************************************
+/***************************************************************
 * Course:
 *    CSE 230 - Encapsulation Design
 * Professor:
@@ -6,34 +6,33 @@
 * Authors:
 *    Josh Thieme and Lakeram Narine
 * Assignment:
-*    W13 - Artillery Final
+*    W12 - Artillery Final
 * Description:
 *    This is the functions that will control the howitzer
 *    it belongs to the howitzer class
 *    code written.
 * How long did this take?
-*    About 10hrs minutes
-*******************************************************/
-
+*    About 10hrs 
+****************************************************************/
 
 #include <cassert>      // for ASSERT
 #include "uiInteract.h" // for INTERFACE
-#include "howitzer.h"
+#include "howitzer.h"   // for HOWITZER
 
-/**********************************************
-* This will set the Intial Position of our
-* Howtizer
-*****************************************/
+/***************************************************************
+* SET POSITION
+* This will set the Intial Position of our Howtizer
+****************************************************************/
 void Howitzer::setPosition(Position& position)
 {
 	this->hposition.setPixelsX(position.getPixelsX());
 	this->hposition.setPixelsY(position.getPixelsY());
 }
 
-/***********************************
-* FIRST HOWITZER CONTROL: Rotate
-* the Howitzer One
-**********************************/
+/***************************************************************
+* ROTATE
+* FIRST HOWITZER CONTROL: Rotate the barrel for Howitzer One
+***************************************************************/
 void Howitzer::rotate(const Interface* pUI)
 {
 	if (pUI->isRight())
@@ -42,10 +41,11 @@ void Howitzer::rotate(const Interface* pUI)
 		angle -= 0.05;
 }
 
-/***********************************
-* FIRST HOWITZER CONTROL: Raise/ move
-* the Howitzer One by small increments
-**********************************/
+/***************************************************************
+* RAISE
+* FIRST HOWITZER CONTROL: Raise / move the barrel ofHowitzer One
+* by small increments
+***************************************************************/
 void Howitzer::raise(const Interface* pUI)
 {
 	if (pUI->isUp())
@@ -54,10 +54,11 @@ void Howitzer::raise(const Interface* pUI)
 		angle += (angle >= 0 ? 0.003 : -0.003);
 }
 
-/***********************************
-* SECOND HOWITZER CONTROL: Raise/ move
-* the Howitzer two by small increments
-**********************************/
+/***************************************************************
+* RAISE2
+* SECOND HOWITZER CONTROL: Raise / move the barrel ofHowitzer Two
+* by small increments
+****************************************************************/
 void Howitzer::raise2(const Interface* pUI)
 {
 	if (pUI->is8())
@@ -66,10 +67,10 @@ void Howitzer::raise2(const Interface* pUI)
 		angle += (angle >= 0 ? 0.003 : -0.003);
 }
 
-/***********************************
-* SECOND HOWITZER CONTROL: Rotate
-* the Howitzer Two
-**********************************/
+/***************************************************************
+* ROTATE2
+* SECOND HOWITZER CONTROL: Rotate the barrel for Howitzer Two
+***************************************************************/
 void Howitzer::rotate2(const Interface* pUI)
 {
 	if (pUI->is4())
@@ -77,5 +78,3 @@ void Howitzer::rotate2(const Interface* pUI)
 	if (pUI->is6())
 		angle -= 0.05;
 }
-
-

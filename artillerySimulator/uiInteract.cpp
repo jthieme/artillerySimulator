@@ -2,7 +2,7 @@
  * Source File:
  *     UI INTERACT
  * Author:
- *     Br. Helfrich
+ *     Br. Helfrich, Josh Thieme, Lakeram Narine
  * Description:
  *     Implement the interfaces specified in uiInterface.h.  This handles
  *     all the interfaces and events necessary to work with OpenGL.  Your
@@ -197,7 +197,6 @@ void Interface::keyEvent(int key, bool fDown)
    case ' ':
       isSpacePress = fDown;
       break;
-   
    }
 }
 
@@ -220,19 +219,15 @@ void Interface::keyEvent2(int key, bool fDown)
     case '6':
         is6Press = fDown;
         break;
-
     case '8':
         is8Press = fDown;
         break;
-
     case '2':
         is2Press = fDown;
         break;
     case '0':
         is0Press = fDown;
-
         break;
-
     }
 }
 

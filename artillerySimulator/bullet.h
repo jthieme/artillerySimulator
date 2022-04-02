@@ -26,19 +26,19 @@ using namespace std;
 class Bullet
 {
 private:
-	const double muzzel_velocity = 827.0;
+	bool isFlying = false;
+	const double muzzleVelocity = 827.0;
 	const double mass = 46.7;
 	const double radius = 0.077445;
-	Velocity velocity;
-	Position b_position;
 	double time = 0.0;
 	double age = 0.0;
-	bool isFlying = false;
 	double altitude;
 	double density;
 	double timeInterval = 0.5;
 	Direction direction;
 	list<Position> path;
+	Position pos;
+	Velocity velocity;
 
 public:
 	Bullet() 
@@ -52,7 +52,7 @@ public:
 	void fire(double angle, Position& position);
 	void draw(ogstream& gout);
 	void drawFlight(ogstream& gout);
-	Position getPosition(){ return b_position; }
+	Position getPosition(){ return pos; }
 	double getSpeed() { return velocity.getSpeed(); }
 	double getRadius() { return radius; }
 	void advance();
@@ -61,8 +61,9 @@ public:
 	void bulletCollide() { setIsFlying(false); }
 	
 	void setPath()
-	{   path.clear();
-		path.push_back(b_position); 
+	{   
+		path.clear();
+		path.push_back(pos); 
 	}
 	
 

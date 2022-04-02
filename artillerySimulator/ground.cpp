@@ -9,15 +9,15 @@
 
 #include "ground.h"   // for the Ground class definition
 #include "uiDraw.h"   // for random() and drawLine()
-#include <cassert>
+#include <cassert>    // for asserts
 
-const int WIDTH_HOWITZER = 14;
+const int WIDTH_HOWITZER = 14;      // width of Howitzer
 
 const double MIN_ALTITUDE = 300.0;  // min altitude is at 984'
 const double MAX_ALTITUDE = 3000.0; // max altitude is 3,000m or 9842.52ft
-const double MAX_SLOPE = 1.0; // steapness of the features. Smaller number is flatter
-const double LUMPINESS = 0.15; // size of the hills. Smaller number is bigger features
-const double TEXTURE = 3.0;   // size of the small features such as rocks
+const double MAX_SLOPE = 1.0;       // steapness of the features. Smaller number is flatter
+const double LUMPINESS = 0.15;      // size of the hills. Smaller number is bigger features
+const double TEXTURE = 3.0;         // size of the small features such as rocks
 
 Ground::Ground(const Position& posUpperRight) :
     posUpperRight(posUpperRight),
@@ -60,7 +60,7 @@ void Ground::reset(Position& posHowitzer, Position& posHowitzer2)
     
     for (int i = 1; i < width; i++)
     {
-        // put the howitzer on flat ground
+        // put the howitzers on flat ground
         if (i > iHowitzer - WIDTH_HOWITZER / 2 && i < iHowitzer + WIDTH_HOWITZER / 2 )
             ground[i] = ground[i - 1];
         else if (i > iHowitzer2 - WIDTH_HOWITZER / 2 && i < iHowitzer2 + WIDTH_HOWITZER / 2)
@@ -156,8 +156,8 @@ void Ground::draw(ogstream& gout) const
 }
 
 /***********************************************************
- * HIT GROUND / TARGET
- * Did the bullet hit the ground or the target?
+ * HIT GROUND
+ * Did the bullet hit the ground?
  **********************************************************/
 bool Ground::hitGround(const Position& position, int bulletWidth) const
 {
@@ -168,6 +168,7 @@ bool Ground::hitGround(const Position& position, int bulletWidth) const
     xMin = (xMin < 0 ? 0 : xMin);
     xMax = (xMax > (int)posUpperRight.getPixelsX() - 1 ? (int)posUpperRight.getPixelsX() - 1 : xMax);
 
+    // determine if one of the bullets hit the ground
     double maxElevation = ground[xMin];
     for (int i = xMin + 1; i <= xMax; i++)
         if (ground[i] > maxElevation)
@@ -180,15 +181,16 @@ bool Ground::hitGround(const Position& position, int bulletWidth) const
  * HIT TARGET
  * Did the bullet hit the target?
  **********************************************************/
-
 bool Ground::hitTarget(const Position& position) const {
 
+    // find the bullets x and y positions
     int xMin = (int)(position.getPixelsX() - 6.0);
     int xMax = (int)(position.getPixelsX() + 6.0);
 
     int yMin = (int)(position.getPixelsY() - 6.0);
     int yMax = (int)(position.getPixelsY() + 6.0);
 
+    // determine if either bullet hit the target
     return (posTarget.getPixelsX() < xMax && posTarget.getPixelsX() > xMin) && 
        (posTarget.getPixelsY() < yMax && posTarget.getPixelsY() > yMin) ? true : false;
 }

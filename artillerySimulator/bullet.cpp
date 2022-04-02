@@ -1,64 +1,87 @@
+/***********************************************************************
+ * Bullet: Everything about the bullet
+ * Author:
+ *    Josh Thieme, Lakeram Narine
+ * Summary:
+ *    This is to have the bullet in the simulation
+ ************************************************************************/
+
 #include "bullet.h"
 
-
-
+/***********************************************************************
+* ADVANCE
+* This will enable the bullets to "fly" on the screen
+************************************************************************/
 void Bullet::advance()
 {
 	if (isFlying) {
-		path.push_back(b_position);	
+		path.push_back(pos);	
 		// get the altitude
-		altitude = b_position.getMetersY();
+		altitude = pos.getMetersY();
 
 		// get speed
 		double speed = getSpeed();
-		Physics ph;
 
 		// Modify the Velocity to handle wind Resistnace
-		double density = ph.densityFromAltitude(altitude);
-		double dragCoefficient = ph.dragFromSpeed(speed, altitude);
-		double windResistance = ph.forceFromDrag(density, dragCoefficient, radius, speed);
-		double accelerationDrag = ph.accelerationFromForce(windResistance, mass);
-		Velocity velocitywind(ph.velocityFromAcceleration(accelerationDrag, timeInterval), direction);
+		double density = densityFromAltitude(altitude);
+		double dragCoefficient = dragFromSpeed(speed, altitude);
+		double windResistance = forceFromDrag(density, dragCoefficient, radius, speed);
+		double accelerationDrag = accelerationFromForce(windResistance, mass);
+		Velocity velocitywind(velocityFromAcceleration(accelerationDrag, timeInterval), direction);
 
 		velocitywind.reverse();
 		velocity += velocitywind;
 
 		////Modify velocity to handle gravity
-		double accelrationGravity = ph.gravityFromAltitude(altitude);
-		double velocityGravity = ph.velocityFromAcceleration(accelrationGravity, timeInterval);
+		double accelrationGravity = gravityFromAltitude(altitude);
+		double velocityGravity = velocityFromAcceleration(accelrationGravity, timeInterval);
 
 		Velocity velgravity(0, -velocityGravity);
 		velocity += (velgravity);
 
 		//Inertia
-		b_position.addMetersX(ph.velocityFromAcceleration(velocity.getDX(), timeInterval));
-		b_position.addMetersY(ph.velocityFromAcceleration(velocity.getDY(), timeInterval));
-
+		pos.addMetersX(velocityFromAcceleration(velocity.getDX(), timeInterval));
+		pos.addMetersY(velocityFromAcceleration(velocity.getDY(), timeInterval));
 	}
-
 }
 
+/***********************************************************************
+ * SET POSITION
+ * This will set the bullets starting position at each Howitzer
+ ************************************************************************/
 void Bullet::setPosition(Position& position)
 {
-	b_position.setPixelsX(position.getPixelsX());
-	b_position.setPixelsY(position.getPixelsY());
+	pos.setPixelsX(position.getPixelsX());
+	pos.setPixelsY(position.getPixelsY());
 }
 
+/***********************************************************************
+* FIRE
+* The bullet will begin to travel when this is called
+************************************************************************/
 void Bullet::fire(double angle, Position& position)
 {
 	setIsFlying(true);
 	setDirection(angle);
 	setPosition(position);
-	velocity.setSpeedAngle(muzzel_velocity, direction);
-
+	velocity.setSpeedAngle(muzzleVelocity, direction);
 }
 
+/***********************************************************************
+ * DRAW
+ * This is to draw the bullet on the screen
+ ************************************************************************/
 void Bullet::draw(ogstream& gout)
 {
-	gout.drawProjectile(b_position, 0.5);
+	gout.drawProjectile(pos, 0.5);
 	drawFlight(gout);
 }
 
+/***********************************************************************
+ * DRAW FLIGHT
+ * 
+ * This is to draw the trailing effect of the bullet as it flies 
+ ************************************************************************/
 void Bullet::drawFlight(ogstream& gout)
 {
 	int counter = 0;
@@ -72,6 +95,5 @@ void Bullet::drawFlight(ogstream& gout)
 			counter++;
 		}
 	}
-
 }
 

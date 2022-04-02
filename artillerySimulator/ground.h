@@ -53,7 +53,7 @@ public:
 private:
     double* ground;                // elevation of the ground, in pixels 
     Position posTarget;            // the location of the target, in pixels
-    int iHowitzer;                 // the location of the howitzer
-    int iHowitzer2;
-    Position posUpperRight;  // size of the screen
+    int iHowitzer;                 // the location of the howitzer for player 1
+    int iHowitzer2;                // the location of the howtizer for player 2
+    Position posUpperRight;        // size of the screen
 };

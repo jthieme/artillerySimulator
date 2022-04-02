@@ -7,13 +7,13 @@
  *    Everything we need to know about a location on the screen.
  ************************************************************************/
 
-#include "position.h"
-#include <cassert>
+#include "position.h"  // for POSITION
+#include <cassert>     // for assert
 
  /******************************************
  * POINT : non-default constructor
  * create a point in x,y in meters
- *****************************************/
+ ******************************************/
 Position::Position(double x, double y) : x(0.0), y(0.0)
 {
    setMetersX(x);
@@ -33,7 +33,7 @@ Position& Position::operator = (const Position& pt)
 
 /******************************************
  * POSITION insertion
- *       Display position on the screen
+ * Display position on the screen
  *****************************************/
 std::ostream& operator << (std::ostream& out, const Position& pt)
 {
@@ -43,7 +43,7 @@ std::ostream& operator << (std::ostream& out, const Position& pt)
 
 /*******************************************
 * POSITION extraction
-*       Prompt for coordinates
+* Prompt for coordinates
 ******************************************/
 std::istream& operator >> (std::istream& in, Position& pos)
 {

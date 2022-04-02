@@ -7,7 +7,6 @@
  *    This is to have the howitzer in the simulation
  ************************************************************************/
 
-
 #pragma once
 
 #include <cassert>      // for ASSERT
@@ -27,22 +26,60 @@ private:
 	Position hposition;
 	double angle;
 public:
+
+	/***************************************
+	* This is the constructor that will
+	* intitialize the member variables
+	******************************/
 	Howitzer() :angle(0.0) {
 		hposition.setPixelsX(200.0);
 		updateAngle(angle);
 	}
+
+	/***********************************
+	* This func thats a pos and set it to 
+	* the Howitzer pos
+	************************************/
 	void setPosition(Position& position);
+
+	/***********************************
+	* This func will draw the Howitzer at
+	* a certain position and angle everytime
+	* it changes it rotation
+	************************************/
 	void draw(ogstream& gout, double flighttime){ gout.drawHowitzer(hposition, angle, flighttime);}
+
+	/***********************************
+	* This func returns the current
+	* position for the Howitzer
+	************************************/
 	Position getPosition(){return hposition;}
 
-	// First Howitzer Handle
+	/***********************************
+	* These two func handle the rotation
+	* and Raise of the first Howit
+	************************************/
 	void rotate(const Interface* pUI);
 	void raise(const Interface* pUI);
-	// second howitzer handle
+	
+	/***********************************
+	* These two func handle the rotation
+	* and raise of the second Howit
+	************************************/
 	void raise2(const Interface* pUI);
 	void rotate2(const Interface* pUI);
 
+	/************************************
+	* Retuns the Angle that the Howitzer
+	* rotates or Raise in
+	***********************************/
 	double getAngle() { return angle; }
+
+	/************************************
+	* Converts our Angle rotatation
+	* and raise every time
+	* there is a movement
+	***********************************/
 	void updateAngle(double radian){ angle = (2.0 * 3.14159) * (radian / 360.0);}
 
 };

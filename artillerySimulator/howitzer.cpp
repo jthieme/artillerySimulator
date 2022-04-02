@@ -4,9 +4,9 @@
 * Professor:
 *    Brother Helfrich
 * Authors:
-*    Josh Thieme and Lakeram Narine, James Helfrich
+*    Josh Thieme and Lakeram Narine
 * Assignment:
-*    W10 - Artillery FInal
+*    W13 - Artillery Final
 * Description:
 *    This is the functions that will control the howitzer
 *    it belongs to the howitzer class

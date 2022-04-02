@@ -17,6 +17,10 @@
 #include "uiDraw.h"  
 #include "physics.h"
 #include "direction.h"
+#include <iterator>
+#include <list>
+#include <vector>
+using namespace std;
 using namespace std;
 
 class Bullet
@@ -34,10 +38,17 @@ private:
 	double density;
 	double timeInterval = 0.5;
 	Direction direction;
+	double fade = 0;
+
+	// my bullet paths
+	list<Position> path;
 	
 
 public:
-	Bullet() {};
+	Bullet() 
+	{
+		setPath();
+	};
 	void setDirection(double angle){ direction.setRadians(angle); }
 	void setIsFlying(bool isFlying) { this->isFlying = isFlying; }
 	bool getIsFlying() { return isFlying; }
@@ -45,37 +56,41 @@ public:
 	
 	void draw(ogstream& gout){
 		gout.drawProjectile(b_position, 0.5);
+		cout << "size" << path.size() << endl;
 		drawFlight(gout);
 	}
 
 	void drawFlight(ogstream& gout)
 	{
-		/*for (int i = 0; i < 3; i++)
-		{
-			gout.drawProjectile(flightPos[i],0.5*i );
-		}*/
-		gout.drawProjectile(flightPos, 1.5);
-		/*for (int i = 0; i < 20; i++)
-		{
-			gout.drawProjectile(flightPos[i], 0.5 * (double)i);
-		}*/
-		
+		list<Position>::iterator it;
+		int counter = 0;
+		if (getIsFlying()) {
+			for (it = path.begin(); it != path.end(); it++)
+			{
+				Position pos(it->getMetersX() - 1, it->getMetersY() - 1);
+				if (counter > path.size() - 6)
+					gout.drawProjectile(pos, 1.5 * (path.size() - counter));
+				counter++;
+			}
+		}
+	
 	}
 
 	Position getPosition(){ return b_position; }
 	double getSpeed() { return velocity.getSpeed(); }
 	double getRadius() { return radius; }
 	void advance();
-	void reset();
+	void reset(Position pos) { setPosition(pos); };
 	void setPosition(Position& position);
+	
+	void setPath()
+	{ 
+		path.clear();
+		path.push_back(b_position); 
+	
+	}
+	
 
-	struct FlightPath
-	{		
-		Position pos;
-		Velocity vel;
-		double time;
-	};
-	Position flightPos;
 };
 
 

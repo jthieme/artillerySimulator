@@ -87,7 +87,6 @@ public:
         
     }
 
-    void reset() {};
 
     /***************************************
     * CHECK COLLISION: this will check for 
@@ -102,6 +101,7 @@ public:
             bullet.setIsFlying(false);
             bullet2.setIsFlying(false);
             gout << "Player One  hit the Target!!!" << "\n";
+            
         }
 
         // check if bullet 2 hit target
@@ -125,7 +125,17 @@ public:
             gout << "Player Two hit the Ground!!!" << "\n";
         }
     }
-
+    void reset()
+    {
+        if (bullet.getIsFlying())
+        {
+            bullet.reset(hPlayerOne.getPosition());
+        }
+        if (bullet2.getIsFlying())
+        {
+            bullet2.reset(hPlayerTwo.getPosition());
+        }
+    }
    /***************************************
    * CHECK FOR USER KEY PRESSES: this will check for
    * user input and controls the Howitzer
@@ -150,6 +160,7 @@ public:
                 double angle = hPlayerOne.getAngle();
                 Position pos = hPlayerOne.getPosition();
                 bullet.fire(angle, pos);
+                bullet.setPath();
             }
 
         }
@@ -161,6 +172,7 @@ public:
                 double angle = hPlayerTwo.getAngle();
                 Position pos = hPlayerTwo.getPosition();
                 bullet2.fire(angle, pos);
+                bullet2.setPath();
             }
         }
 
@@ -202,7 +214,7 @@ void callBack(const Interface* pUI, void* p)
     // second Howitzer
     if (pUI->is0())
     {
-        pSimulator->time = 0.0;
+        pSimulator->time2 = 0.0;
         if (!pSimulator->bullet2.getIsFlying()) {
             double angle = pSimulator->hPlayerTwo.getAngle();
             Position pos = pSimulator->hPlayerTwo.getPosition();

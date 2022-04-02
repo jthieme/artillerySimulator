@@ -180,10 +180,7 @@ public:
             << time << "s\n";
 
         // Display the Message for Collision
-        if (bullet2.getIsFlying() == false)
-        {
-            
-        }
+
 
     }
 

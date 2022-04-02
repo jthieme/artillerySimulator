@@ -32,13 +32,16 @@ using namespace std;
 class Simulator
 {
 public:
+    /*************************************
+    * This is the Simulator constructor we intialize the member
+    * variables here when an
+    ****************************/
     Simulator(Position ptUpperRight) :
         ptUpperRight(ptUpperRight),
         ground(ptUpperRight),
         time(0.0),
         time2(0.0),
-        angle(0.0),
-        isfired(false)
+        angle(0.0)
 
     {
         ptHowitzerOne[1].setPixelsX(Position(ptUpperRight).getPixelsX() / 1.2  );
@@ -52,6 +55,7 @@ public:
         // Grabbing howitzer position and give it to the bullet
         Position hPosOne = hPlayerOne.getPosition();
         Position hPosOne2 = hPlayerTwo.getPosition();
+
         bullet.setPosition(hPosOne);
         bullet2.setPosition(hPosOne2);
     }
@@ -59,7 +63,6 @@ public:
     Ground ground;                 // the ground
     Position  projectilePath;  // path of the projectile
     Position  ptHowitzerOne[2];          // location of the howitzer
-                                         // location of the howitzer
     Position  ptUpperRight;        // size of the screen
     Howitzer hPlayerOne;          // first howitzer instance
     Howitzer hPlayerTwo;         // second howitzer instance
@@ -68,7 +71,6 @@ public:
     double angle;               // angle of the howitzer 
     double time;               // amount of time since the last firing for first howitzer
     double time2;             // amount of time since last firing for second howitzer
-    bool isfired;
 
 
     /***************************************
@@ -82,9 +84,7 @@ public:
         ground.draw(gout);
 
         bullet2.draw(gout);
-        bullet.draw(gout);
-       
-        
+        bullet.draw(gout);   
     }
 
 
@@ -98,44 +98,33 @@ public:
         // check if Bullet 1 hit target
         if (ground.hitTarget(bullet.getPosition()))
         {
-            bullet.setIsFlying(false);
-            bullet2.setIsFlying(false);
-            gout << "Player One  hit the Target!!!" << "\n";
-            
+            bullet.bulletCollide();
+            bullet2.bulletCollide();
+            gout << "Player One  hit the Target!!!" << "\n";  
         }
 
         // check if bullet 2 hit target
         if (ground.hitTarget(bullet2.getPosition()))
         {
-            bullet.setIsFlying(false);
-            bullet2.setIsFlying(false);
+            bullet.bulletCollide();
+            bullet2.bulletCollide();
             gout << "Player Two hit the Target!!!" << "\n";
         }
 
         if (ground.hitGround(bullet.getPosition(), 0.8))
         {
-            bullet.setIsFlying(false);
+            bullet.bulletCollide();
             gout << "Player One hit the Ground!!!" << "\n";
         }
 
         // check if bullet 2 two hit the ground
         if (ground.hitGround(bullet2.getPosition(), 0.8))
         {
-            bullet2.setIsFlying(false);
+            bullet2.bulletCollide();
             gout << "Player Two hit the Ground!!!" << "\n";
         }
     }
-    void reset()
-    {
-        if (bullet.getIsFlying())
-        {
-            bullet.reset(hPlayerOne.getPosition());
-        }
-        if (bullet2.getIsFlying())
-        {
-            bullet2.reset(hPlayerTwo.getPosition());
-        }
-    }
+    
    /***************************************
    * CHECK FOR USER KEY PRESSES: this will check for
    * user input and controls the Howitzer
@@ -150,8 +139,7 @@ public:
         //move howitzerTwo
         hPlayerTwo.rotate2(pUI);
         hPlayerTwo.raise2(pUI);
-
-        
+                
         // Intialize the movement of the bullet from first Howitzer
         if (pUI->isSpace())
         {
@@ -177,6 +165,28 @@ public:
         }
 
     }
+
+    /**************************************************
+    * Display the Game info on Screen
+    *****************************************/
+    void displayGameInfo(ogstream& gout)
+    {
+        // Display time since the Bullets fired
+       
+      
+        gout.setf(ios::fixed | ios::showpoint);
+        gout.precision(1);
+        gout << "    Time since the bullet was fired: "
+            << time << "s\n";
+
+        // Display the Message for Collision
+        if (bullet2.getIsFlying() == false)
+        {
+            
+        }
+
+    }
+
 };
 
 /*************************************
@@ -192,7 +202,9 @@ void callBack(const Interface* pUI, void* p)
     // is the first step of every single callback function in OpenGL. 
     Simulator* pSimulator = (Simulator*)p;
     ogstream gout(Position(10.0, pSimulator->ptUpperRight.getPixelsY() - 20.0));
+    ogstream gout2;
 
+    // Getting the users INPUT
     pSimulator->simulatorInput( pUI);
    
     // advance time by half a second.
@@ -210,10 +222,8 @@ void callBack(const Interface* pUI, void* p)
     pSimulator->checkCollision(gout);
 
     // draw some text on the screen
-    gout.setf(ios::fixed | ios::showpoint);
-    gout.precision(1);
-    gout << "Time since the bullet was fired: "
-        << pSimulator->time << "s\n";
+    pSimulator->displayGameInfo(gout);
+   
 }
 
 double Position::metersFromPixels = 40.0;

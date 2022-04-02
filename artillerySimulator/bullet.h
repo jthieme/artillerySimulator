@@ -45,6 +45,7 @@ public:
 	{
 		setPath();
 	};
+
 	void setDirection(double angle){ direction.setRadians(angle); }
 	void setIsFlying(bool isFlying) { this->isFlying = isFlying; }
 	bool getIsFlying() { return isFlying; }
@@ -57,6 +58,7 @@ public:
 	void advance();
 	void reset(Position pos) { setPosition(pos); };
 	void setPosition(Position& position);
+	void bulletCollide() { setIsFlying(false); }
 	
 	void setPath()
 	{   path.clear();

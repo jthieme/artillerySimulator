@@ -5,12 +5,7 @@
 void Bullet::advance()
 {
 	if (isFlying) {
-
-		path.push_back(b_position);
-		
-		/*flightPos.setPixelsX(b_position.getPixelsX());
-		flightPos.setPixelsY(b_position.getPixelsY());*/
-		
+		path.push_back(b_position);	
 		// get the altitude
 		altitude = b_position.getMetersY();
 
@@ -38,9 +33,6 @@ void Bullet::advance()
 		//Inertia
 		b_position.addMetersX(ph.velocityFromAcceleration(velocity.getDX(), timeInterval));
 		b_position.addMetersY(ph.velocityFromAcceleration(velocity.getDY(), timeInterval));
-		
-
-		/*path.pop_front();*/
 
 	}
 

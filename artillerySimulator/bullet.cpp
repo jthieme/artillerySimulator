@@ -61,3 +61,25 @@ void Bullet::fire(double angle, Position& position)
 
 }
 
+void Bullet::draw(ogstream& gout)
+{
+	gout.drawProjectile(b_position, 0.5);
+	drawFlight(gout);
+}
+
+void Bullet::drawFlight(ogstream& gout)
+{
+	int counter = 0;
+	list<Position>::iterator it;
+	if (getIsFlying()) {
+		for (it = path.begin(); it != path.end(); it++)
+		{
+			Position pos(it->getMetersX() - 1, it->getMetersY() - 1);
+			if (counter > path.size() - 6)
+				gout.drawProjectile(pos, 1.5 * (path.size() - counter));
+			counter++;
+		}
+	}
+
+}
+

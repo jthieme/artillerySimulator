@@ -38,11 +38,7 @@ private:
 	double density;
 	double timeInterval = 0.5;
 	Direction direction;
-	double fade = 0;
-
-	// my bullet paths
 	list<Position> path;
-	
 
 public:
 	Bullet() 
@@ -53,29 +49,8 @@ public:
 	void setIsFlying(bool isFlying) { this->isFlying = isFlying; }
 	bool getIsFlying() { return isFlying; }
 	void fire(double angle, Position& position);
-	
-	void draw(ogstream& gout){
-		gout.drawProjectile(b_position, 0.5);
-		cout << "size" << path.size() << endl;
-		drawFlight(gout);
-	}
-
-	void drawFlight(ogstream& gout)
-	{
-		list<Position>::iterator it;
-		int counter = 0;
-		if (getIsFlying()) {
-			for (it = path.begin(); it != path.end(); it++)
-			{
-				Position pos(it->getMetersX() - 1, it->getMetersY() - 1);
-				if (counter > path.size() - 6)
-					gout.drawProjectile(pos, 1.5 * (path.size() - counter));
-				counter++;
-			}
-		}
-	
-	}
-
+	void draw(ogstream& gout);
+	void drawFlight(ogstream& gout);
 	Position getPosition(){ return b_position; }
 	double getSpeed() { return velocity.getSpeed(); }
 	double getRadius() { return radius; }
@@ -84,10 +59,8 @@ public:
 	void setPosition(Position& position);
 	
 	void setPath()
-	{ 
-		path.clear();
+	{   path.clear();
 		path.push_back(b_position); 
-	
 	}
 	
 

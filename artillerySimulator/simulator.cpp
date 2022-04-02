@@ -193,35 +193,8 @@ void callBack(const Interface* pUI, void* p)
     Simulator* pSimulator = (Simulator*)p;
     ogstream gout(Position(10.0, pSimulator->ptUpperRight.getPixelsY() - 20.0));
 
-    // move the howitzer
-    pSimulator->hPlayerOne.rotate(pUI);
-    pSimulator->hPlayerOne.raise(pUI);
-
-    pSimulator->hPlayerTwo.rotate2(pUI);
-    pSimulator->hPlayerTwo.raise2(pUI);
-
-    // Intialize the movement of the bullet
-    if (pUI->isSpace())
-    {
-        pSimulator->time = 0.0;
-        if (!pSimulator->bullet.getIsFlying()) {
-            double angle = pSimulator->hPlayerOne.getAngle();
-            Position pos = pSimulator->hPlayerOne.getPosition();
-            pSimulator->bullet.fire(angle, pos);
-        }
-
-    }
-    // second Howitzer
-    if (pUI->is0())
-    {
-        pSimulator->time2 = 0.0;
-        if (!pSimulator->bullet2.getIsFlying()) {
-            double angle = pSimulator->hPlayerTwo.getAngle();
-            Position pos = pSimulator->hPlayerTwo.getPosition();
-            pSimulator->bullet2.fire(angle, pos);
-        }
-    }
-
+    pSimulator->simulatorInput( pUI);
+   
     // advance time by half a second.
     pSimulator->time += 0.5;
     pSimulator->time2 += 0.5;

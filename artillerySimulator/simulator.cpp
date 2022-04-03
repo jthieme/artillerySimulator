@@ -31,6 +31,24 @@ using namespace std;
  *************************************************************************/
 class Simulator
 {
+
+private:
+   Ground ground;                 // the ground
+   Position  projectilePath;      // path of the projectile
+   Position  ptHowitzerOne[2];    // location of the howitzer
+   Position  ptUpperRight;        // size of the screen
+   Howitzer hPlayerOne;           // first howitzer instance
+   Howitzer hPlayerTwo;           // second howitzer instance
+   Bullet bullet;                 // first bullet for the first Howitzer
+   Bullet bullet2;                // second bullet for the second Howitzer
+   double angle;                  // angle of the howitzer 
+   double time;                   // amount of time since the last firing for first howitzer
+   double time2;                  // amount of time since last firing for second howitzer
+   bool bulletHitTarget = false;  // did the bullet for player 1 hit the target
+   bool bullet2HitTarget = false; // did the bullet for player 2 hit the target 
+   bool bulletHitGround = false;  // did the bullet for player 1 hit the ground
+   bool bullet2HitGround = false; // did the bullet for player 2 hit the ground
+
 public:
     /*************************************************
     * This is the Simulator constructor we intialize
@@ -62,23 +80,6 @@ public:
         bullet.setPosition(hPosOne);
         bullet2.setPosition(hPosOne2);
     }
-
-    Ground ground;               // the ground
-    Position  projectilePath;    // path of the projectile
-    Position  ptHowitzerOne[2];  // location of the howitzer
-    Position  ptUpperRight;      // size of the screen
-    Howitzer hPlayerOne;         // first howitzer instance
-    Howitzer hPlayerTwo;         // second howitzer instance
-    Bullet bullet;               // first bullet for the first Howitzer
-    Bullet bullet2;              // second bullet for the second Howitzer
-    double angle;                // angle of the howitzer 
-    double time;                 // amount of time since the last firing for first howitzer
-    double time2;                // amount of time since last firing for second howitzer
-    bool bulletHitTarget = false;
-    bool bullet2HitTarget = false;
-    bool bulletHitGround = false;
-    bool bullet2HitGround = false;
-
 
     /************************************************
     * DRAW 
@@ -177,6 +178,7 @@ public:
     }
 
     /**************************************************
+    * DISPLAY GAME INFO 
     * Display the Game info on Screen
     **************************************************/
     void displayGameInfo(ogstream& gout)
@@ -199,6 +201,44 @@ public:
            gout << "               Player Two hit the Ground!!!" << "\n";
 
     }
+
+    /**************************************************
+    * SET PLAYER ONE / TWO TIME
+    * Increment time for gameplay
+    **************************************************/
+    double setPlayerOneTime() { return time += 0.5;  }
+    double setPlayerTwoTime() { return time2 += 0.5; }
+
+    /**************************************************
+    * ENGAGE SIMULATOR
+    * This allows for the simulator to function
+    **************************************************/
+    void engageSimulator(const Interface* pUI)
+    {
+       ogstream gout(Position(10.0, ptUpperRight.getPixelsY() - 20.0));
+       ogstream gout2;
+
+       // Getting the users INPUT
+       simulatorInput(pUI);
+
+       // advance time by half a second.
+       setPlayerOneTime();
+       setPlayerTwoTime();
+
+       //Draw all the elements on the screen
+       draw(gout, setPlayerOneTime(), setPlayerTwoTime());
+
+       //Advance the bullet
+       bullet.advance();
+       bullet2.advance();
+
+       //continually watch for Collision
+       checkCollision(gout);
+
+       // draw some text on the screen
+       displayGameInfo(gout);
+    }
+
 };
 
 /********************************************************
@@ -213,29 +253,8 @@ void callBack(const Interface* pUI, void* p)
     // the first step is to cast the void pointer into a game object. This
     // is the first step of every single callback function in OpenGL. 
     Simulator* pSimulator = (Simulator*)p;
-    ogstream gout(Position(10.0, pSimulator->ptUpperRight.getPixelsY() - 20.0));
-    ogstream gout2;
-
-    // Getting the users INPUT
-    pSimulator->simulatorInput( pUI);
    
-    // advance time by half a second.
-    pSimulator->time += 0.5;
-    pSimulator->time2 += 0.5;
-
-    //Draw all the elements on the screen
-    pSimulator->draw(gout, pSimulator->time, pSimulator->time2);
-
-    //Advance the bullet
-    pSimulator->bullet.advance();
-    pSimulator->bullet2.advance();
-
-    //continually watch for Collision
-    pSimulator->checkCollision(gout);
-
-    // draw some text on the screen
-    pSimulator->displayGameInfo(gout);
-   
+    pSimulator->engageSimulator(pUI);
 }
 
 double Position::metersFromPixels = 40.0;

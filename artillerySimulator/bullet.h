@@ -21,7 +21,6 @@
 #include <list>
 #include <vector>
 using namespace std;
-using namespace std;
 
 class Bullet
 {
@@ -31,7 +30,6 @@ private:
 	const double mass = 46.7;
 	const double radius = 0.077445;
 	double time = 0.0;
-	double age = 0.0;
 	double altitude;
 	double density;
 	double timeInterval = 0.5;

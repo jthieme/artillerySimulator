@@ -56,14 +56,14 @@ void Howitzer::raise(const Interface* pUI)
 
 /***************************************************************
 * RAISE2
-* SECOND HOWITZER CONTROL: Raise / move the barrel ofHowitzer Two
+* SECOND HOWITZER CONTROL: Raise / move the barrel of Howitzer Two
 * by small increments
 ****************************************************************/
 void Howitzer::raise2(const Interface* pUI)
 {
-	if (pUI->is8())
+	if (pUI->isX())
 		angle += (angle >= 0 ? -0.003 : 0.003);
-	if (pUI->is2())
+	if (pUI->isS())
 		angle += (angle >= 0 ? 0.003 : -0.003);
 }
 
@@ -73,8 +73,8 @@ void Howitzer::raise2(const Interface* pUI)
 ***************************************************************/
 void Howitzer::rotate2(const Interface* pUI)
 {
-	if (pUI->is4())
+	if (pUI->isC())
 		angle += 0.05;
-	if (pUI->is6())
+	if (pUI->isZ())
 		angle -= 0.05;
 }

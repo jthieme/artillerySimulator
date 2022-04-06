@@ -121,14 +121,14 @@ public:
             bullet2.bulletCollide();
             bullet2HitTarget = true;
         }
-        // check if bullet 1 two hit the ground
+        // check if bullet 1 hit the ground
         if (ground.hitGround(bullet.getPosition(), 0.8))
         {
             bullet.bulletCollide();
             bulletHitGround = true;
         }
 
-        // check if bullet 2 two hit the ground
+        // check if bullet 2 hit the ground
         if (ground.hitGround(bullet2.getPosition(), 0.8))
         {
             bullet2.bulletCollide();
@@ -165,7 +165,7 @@ public:
 
         }
         // Intialize the movement of the bullet from second Howitzer
-        if (pUI->is0())
+        if (pUI->isV())
         {
             time2 = 0.0;
             if (!bullet2.getIsFlying()) {

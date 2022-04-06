@@ -213,20 +213,20 @@ void Interface::keyEvent2(int key, bool fDown)
     {
     // added new keys
 
-    case '4':
-        is4Press = fDown;
+    case 'c':
+        isCPress = fDown;
         break;
-    case '6':
-        is6Press = fDown;
+    case 'z':
+        isZPress = fDown;
         break;
-    case '8':
-        is8Press = fDown;
+    case 's':
+        isSPress = fDown;
         break;
-    case '2':
-        is2Press = fDown;
+    case 'x':
+        isXPress = fDown;
         break;
-    case '0':
-        is0Press = fDown;
+    case 'v':
+        isVPress = fDown;
         break;
     }
 }
@@ -249,16 +249,16 @@ void Interface::keyEvent()
    if (isRightPress)
       isRightPress++;
    //added new key press
-   if (is4Press)
-       is4Press ++;
-   if (is6Press)
-       is6Press ++;
-   if (is8Press)
-       is8Press ++;
-   if (is2Press)
-       is2Press ++;
-   if (is0Press)
-       is0Press ++;
+   if (isCPress)
+       isCPress ++;
+   if (isZPress)
+       isZPress ++;
+   if (isSPress)
+       isSPress ++;
+   if (isXPress)
+       isXPress ++;
+   if (isVPress)
+       isVPress ++;
 
    isSpacePress = false;
 }
@@ -306,11 +306,11 @@ int          Interface::isLeftPress = 0;
 int          Interface::isRightPress = 0;
 
 // added new key press
-int         Interface::is4Press = 0;
-int         Interface::is6Press = 0;
-int         Interface::is8Press = 0;
-int        Interface::is2Press = 0;
-int         Interface::is0Press = 0;
+int         Interface::isCPress = 0;
+int         Interface::isZPress = 0;
+int         Interface::isSPress = 0;
+int        Interface::isXPress = 0;
+int         Interface::isVPress = 0;
 
 
 bool         Interface::isSpacePress = false;

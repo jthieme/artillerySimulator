@@ -72,11 +72,11 @@ public:
 
 
    // added new keys
-   int  is4()         const { return is4Press; };
-   int  is6()         const { return is6Press; };
-   int  is8()         const { return is8Press; };
-   int  is2()         const { return is2Press; };
-   int is0()         const { return is0Press; };
+   int  isC()         const { return isCPress; };
+   int  isZ()         const { return isZPress; };
+   int  isS()         const { return isSPress; };
+   int  isX()         const { return isXPress; };
+   int  isV()         const { return isVPress; };
 
 
    static void* p;                   // for client
@@ -94,12 +94,13 @@ private:
    static int  isLeftPress;          //    "   left       "
    static int  isRightPress;         //    "   right      "
    static bool isSpacePress;         //    "   space      "
-   // new key
-   static int  is4Press;         //    "   W      "
-   static int  is6Press;         //    "   R      "
-   static int  is8Press;         //    "   W      "
-   static int  is2Press;         //    "   R      "
-   static int  is0Press;         //    "   R      "
+   
+   // new keys for player 2
+   static int  isCPress;             //    "   c      "
+   static int  isZPress;             //    "   z      "
+   static int  isSPress;             //    "   s      "
+   static int  isXPress;             //    "   x      "
+   static int  isVPress;             //    "   v      "
 
 };
 

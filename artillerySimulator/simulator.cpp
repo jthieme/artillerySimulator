@@ -110,14 +110,12 @@ public:
         if (ground.hitTarget(bullet.getPosition()))
         {
             bullet.bulletCollide();
-            bullet2.bulletCollide();
             bulletHitTarget = true;
         }
 
         // check if bullet 2 hit target
         if (ground.hitTarget(bullet2.getPosition()))
         {
-            bullet.bulletCollide();
             bullet2.bulletCollide();
             bullet2HitTarget = true;
         }
